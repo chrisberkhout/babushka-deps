@@ -19,8 +19,8 @@ end
 dep 'rubygems deb path setup' do
   requires \
     'rubygems deb bin dir added to path in profile',
-    'rubygems deb bin dir in current path',
-    'rubygems deb bin dir in secure path'
+    'rubygems deb bin dir in secure path',
+    'rubygems deb bin dir in current path'
 end
 
 
@@ -41,7 +41,7 @@ dep 'rubygems deb bin dir in current path' do
     ENV['PATH'].include?(var :rubygems_deb_bin_dir)
   }
   meet { 
-    ENV['PATH'] = ENV['PATH'] + var(:rubygems_deb_bin_dir)
+    ENV['PATH'] = ENV['PATH'] + ':' + var(:rubygems_deb_bin_dir)
   }
 end
 
