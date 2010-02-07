@@ -19,7 +19,7 @@ end
 dep 'rubygems deb path setup' do
   requires \
     'rubygems deb bin dir added to path in profile',
-    # 'rubygems deb bin dir in current path',
+    'rubygems deb bin dir in current path',
     'rubygems deb bin dir in secure path'
 end
 
