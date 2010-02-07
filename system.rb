@@ -1,6 +1,6 @@
 dep 'system' do
   requires \
-    'ubuntu jaunty 9.04', # just because that's what I have been writing my deps on
+    'ubuntu karmic 9.10', # just because that's what I have been writing my deps on
     'ssh',
     'time setup',
     'build-essential',
@@ -9,8 +9,8 @@ dep 'system' do
 end
 
 
-dep 'ubuntu jaunty 9.04' do
-  met? { grep 'Ubuntu 9.04', '/etc/lsb-release' }
+dep 'ubuntu karmic 9.10' do
+  met? { grep 'Ubuntu 9.10', '/etc/lsb-release' }
 end
 
 dep 'ssh' do
