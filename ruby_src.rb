@@ -4,6 +4,7 @@ end
 
 
 dep 'ruby-1.8.7-p248' do
+  requires 'build-essential'
   met? { `ruby -v 2>&1`.include?("ruby 1.8.7 (2009-12-24 patchlevel 248)") }
   meet { 
     Dir.chdir '/usr/local/src'
