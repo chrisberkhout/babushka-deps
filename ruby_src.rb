@@ -16,6 +16,6 @@ dep 'ruby-1.8.7-p248' do
     shell 'make'
     shell 'make test'
     sudo  'make install'
-    # shell 'hash -r'
+    shell 'hash -r' # this clears the cached executable locations without having to start a new shell
   }
 end
