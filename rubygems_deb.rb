@@ -1,6 +1,6 @@
 # This installs the Ubuntu/Debian version of rubygems via apt-get.
 # This version has 'gem update --system' diabled.
-# It doesn't create wrappers for gem executables in /usr/bin, so the gem 'EXECUTABLE DIRECTORY' needs to be added to the path.
+# It doesn't create wrappers for gem executables in /usr/bin, so the gem 'EXECUTABLE DIRECTORY' needs to be added to the paths.
 
 dep 'rubygems deb' do
   requires \

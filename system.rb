@@ -4,8 +4,9 @@ dep 'system' do
     'ssh',
     'time setup',
     'build-essential',
-    'ruby src'
-    # 'rubygems deb',
+    'ruby',
+    'rubygems'
+    # 'rubygems deb', # this is the ubuntu/debian build of rubygems (source install is preferred)
     # 'rubygems handy gems'
 end
 
@@ -22,9 +23,4 @@ end
 dep 'build-essential' do
   met? { `dpkg -s build-essential 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install build-essential" }
-end
-
-dep 'rubygems' do # any version of rubygems
-  met? { `gem -v 2>&1`[/^\d+\.\d+\.\d+$/] }
-  # can meet using any of several different installation strategies
 end
