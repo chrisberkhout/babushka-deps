@@ -4,10 +4,10 @@ dep 'system' do
     'ssh',
     'time setup',
     'build-essential',
+    # 'rubygems deb', # this is the ubuntu/debian build of rubygems (source install is preferred)
     'ruby',
     'rubygems'
-    # 'rubygems deb', # this is the ubuntu/debian build of rubygems (source install is preferred)
-    # 'rubygems handy gems'
+    # 'handy system gems'
 end
 
 

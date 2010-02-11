@@ -13,6 +13,9 @@ dep 'rubygems latest' do
 end
 
 dep 'rubygems-1.3.5' do
+  # http://wiki.rubyonrails.org/getting-started/installation/linux
+  # http://rubyforge.org/projects/rubygems/
+  # http://rubyforge.org/forum/forum.php?forum_id=33759
   requires 'build-essential'
   met? { `/usr/local/bin/gem --version 2>&1`.include?("1.3.5\n") }
   meet { 

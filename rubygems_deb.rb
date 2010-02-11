@@ -46,7 +46,8 @@ dep 'rubygems deb bin dir in current path' do
 end
 
 dep 'rubygems deb bin dir in secure path' do
-  # with ubuntu/debian's rubygems this has to be done for sudo to be able to use gem executables (e.g. rake)
+  # With ubuntu/debian's rubygems this has to be done for sudo to be able to use gem executables (e.g. rake).
+  # This only works on ubuntu karmic or later.
   requires 'rubygems deb package installed'
   met? { 
     dir = set :rubygems_deb_bin_dir, `gem env`.scan(/EXECUTABLE DIRECTORY: (.*)$/).first.first

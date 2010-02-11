@@ -1,4 +1,4 @@
-dep 'rubygems handy gems' do
+dep 'handy system gems' do
   requires \
     'rake'
 end

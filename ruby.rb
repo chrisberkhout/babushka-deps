@@ -8,6 +8,8 @@ end
 
 
 dep 'ruby-1.8.7-p248' do
+  # http://wiki.rubyonrails.org/getting-started/installation/linux
+  # http://www.ruby-lang.org/en/news/2009/12/25/ruby-1-8-7-p248-released/
   requires \
     'build-essential',
     'libs for ruby'
