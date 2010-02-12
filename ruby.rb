@@ -12,7 +12,7 @@ dep 'ruby-1.8.7-p248' do
   # http://www.ruby-lang.org/en/news/2009/12/25/ruby-1-8-7-p248-released/
   requires \
     'build-essential',
-    'libs for ruby'
+    'sys libs for ruby'
   met? { 
     `ruby -v 2>&1`.include?("ruby 1.8.7") &&
     `ruby -v 2>&1`.include?("patchlevel 248)") &&
@@ -34,7 +34,7 @@ dep 'ruby-1.8.7-p248' do
 end
 
 
-dep 'libs for ruby' do
+dep 'sys libs for ruby' do
   requires \
     'libssl-dev',
     'libreadline5-dev',
