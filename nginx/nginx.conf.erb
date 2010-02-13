@@ -1,0 +1,17 @@
+user www-data www-data;
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include             mime.types;
+    default_type        application/octet-stream;
+    sendfile            on;
+    keepalive_timeout   5;
+    gzip                on;
+    passenger_root      <%= `passenger-config --root` %>;
+
+    include             /usr/local/nginx/sites-enabled/*;
+}
