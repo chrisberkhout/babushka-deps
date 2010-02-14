@@ -110,3 +110,8 @@ dep 'nginx sys config and sites directories' do
     render_erb "nginx/nginx.conf.erb", :to => '/usr/local/nginx/conf/nginx.conf', :sudo => true
   }
 end
+
+dep 'diff' do
+  met? { `dpkg -s diff 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install diff" }
+end
