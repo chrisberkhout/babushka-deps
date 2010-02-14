@@ -2,7 +2,8 @@ dep 'nginx' do
   requires \
     'nginx built and installed',
     'nginx init script',
-    'nginx sys config and sites directories'
+    'nginx sys config and sites directories',
+    'nginx running'
 end
 
 
@@ -36,7 +37,7 @@ dep 'nginx 0.7.65' do
       ./configure \
           --with-pcre \
           --with-http_ssl_module \
-          --add-module=`passenger-config --root`/ext/nginx'
+          --add-module=`passenger-config --root`/ext/nginx
     END_OF_STRING
     shell config_cmd
     shell 'make'
@@ -115,3 +116,13 @@ dep 'diff' do
   met? { `dpkg -s diff 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install diff" }
 end
+
+
+dep 'nginx running' do
+  requires \
+    'nginx built and installed',
+    'nginx init script'
+  met? { File.exist?('/usr/local/nginx/logs/nginx.pid') }
+  meet { sudo "/etc/init.d/nginx start" }
+end
+
