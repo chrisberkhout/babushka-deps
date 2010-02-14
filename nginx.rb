@@ -51,10 +51,10 @@ dep 'passenger for nginx' do
     'rubygems',
     'gem rake',
     'build-essential'
-  met? { File.exist?(`passenger-config --root`.chomp + '/ext/nginx/HelperServer') }
+  met? { File.exist?(`passenger-config --root 2>&1`.chomp + '/ext/nginx/HelperServer') }
   meet {
     sudo "gem install passenger"
-    Dir.chdir( `passenger-config --root` + '/ext/nginx' )
+    Dir.chdir( `passenger-config --root`.chomp + '/ext/nginx' )
     sudo "rake nginx"    # doing this now means nginx ./configure can be done without sudo
   }
 end
