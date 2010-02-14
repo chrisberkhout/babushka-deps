@@ -6,7 +6,8 @@ dep 'system' do
     'build-essential',
     'ruby',
     'rubygems',
-    'rubygems handy sys gems'
+    'rubygems handy sys gems',
+    'nginx'
 end
 
 
