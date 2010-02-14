@@ -1,8 +1,8 @@
 dep 'system' do
   requires \
     'ubuntu karmic 9.10', # just because that's what I have been writing my deps on
-    'ssh',
     'time setup',
+    'ssh',
     'build-essential',
     'ruby',
     'rubygems',
