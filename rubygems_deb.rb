@@ -29,8 +29,8 @@ dep 'rubygems deb bin dir added to path in profile' do
   met? { File.exists?('/etc/profile.d/add_rubygems_deb_bin_dir_to_path.sh') }
   meet { 
     set :rubygems_deb_bin_dir, `gem env`.scan(/EXECUTABLE DIRECTORY: (.*)$/).first.first
-    render_erb "rubygems_deb/add_rubygems_deb_bin_dir_to_path.sh.erb", :to => '/etc/profile.d/add_rubygems_deb_bin_dir_to_path.sh'
-    shell "chmod +x /etc/profile.d/add_rubygems_deb_bin_dir_to_path.sh"
+    render_erb "rubygems_deb/add_rubygems_deb_bin_dir_to_path.sh.erb", :to => '/etc/profile.d/add_rubygems_deb_bin_dir_to_path.sh', :sudo => true
+    sudo "chmod +x /etc/profile.d/add_rubygems_deb_bin_dir_to_path.sh"
   }
 end
 
