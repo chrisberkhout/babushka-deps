@@ -1,21 +1,10 @@
 dep 'site' do
   # requires 'system'
-  requires 'site vars'
   requires 'account'
   requires 'site dir'
   # requires 'rvm user'
-end
-
-dep 'site vars' do
-  met? { vars.has_key? :site_vars_ready.to_s }
-  meet {
-
-    # define_var :install_rvm,
-    #   :message => "System ruby is \""+`ruby -v 2>&1`.chomp+"\" do you want to install your own in an RVM?",
-    #   :choices => ['yes', 'no'],
-    #   :default => 'no'
-    # ask_for_var :install_rvm.to_s
-
+  
+  setup {
     define_var  :username, :message => 'Account username for this site?'
     # ask_for_var :username.to_s
     
@@ -24,10 +13,15 @@ dep 'site vars' do
     
     define_var  :primary_domain, :message => 'Primary domain for this site (e.g. www.thesite.com)?'
     # ask_for_var :primary_domain.to_s
-        
-    set :site_vars_ready, true
+    
+    # define_var :install_rvm,
+    #   :message => "System ruby is \""+`ruby -v 2>&1`.chomp+"\" do you want to install your own in an RVM?",
+    #   :choices => ['yes', 'no'],
+    #   :default => 'no'
+    # ask_for_var :install_rvm.to_s
   }
 end
+
 
 dep 'account' do
   met? { grep(/^#{var(:username)}:/, '/etc/passwd') }
