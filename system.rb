@@ -3,11 +3,12 @@ dep 'system' do
     'ubuntu karmic 9.10', # just because that's what I have been writing my deps on
     'time setup',
     'ssh server',
-    # 'handy sys packages',
+    'handy sys packages',
     'ruby',
     'rubygems',
     'rubygems handy sys gems',
     'nginx'
+  
 end
 
 
