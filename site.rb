@@ -1,24 +1,14 @@
 dep 'site' do
   # requires 'system'
-  requires 'account'
-  requires 'site dir'
-  # requires 'rvm user'
-  
+  requires \
+    'account',
+    'site dir',
+    'rvm option'
+    
   setup {
     define_var  :username, :message => 'Account username for this site?'
-    # ask_for_var :username.to_s
-    
     define_var  :password, :message => 'Account password for this site?'
-    # ask_for_var :password.to_s
-    
     define_var  :primary_domain, :message => 'Primary domain for this site (e.g. www.thesite.com)?'
-    # ask_for_var :primary_domain.to_s
-    
-    # define_var :install_rvm,
-    #   :message => "System ruby is \""+`ruby -v 2>&1`.chomp+"\" do you want to install your own in an RVM?",
-    #   :choices => ['yes', 'no'],
-    #   :default => 'no'
-    # ask_for_var :install_rvm.to_s
   }
 end
 
