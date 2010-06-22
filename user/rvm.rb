@@ -1,22 +1,22 @@
-dep 'rvm option' do
-  requires 'rvm'
+dep 'cb rvm option' do
+  requires 'cb rvm'
   setup {
     define_var :install_rvm,
       :message => "System ruby is \""+`ruby -v 2>&1`.chomp+"\" do you want to install your own in an RVM?",
       :choices => ['yes', 'no'],
       :default => 'no'
     ask_for_var :install_rvm.to_s
-    definer.payload[:requires].delete 'rvm' if var(:install_rvm)=='no'
+    definer.payload[:requires].delete 'cb rvm' if var(:install_rvm)=='no'
   }
 end
 
-dep 'rvm' do
+dep 'cb rvm' do
   requires \
-    'sys libs for ruby',        # defined elsewhere
-    # 'git', # THIS MIGHT NEED A DIFFERENT NAME
-    'curl',                     # defined elsewhere
-    # 'sys libs for rvm rubies',
-    'build-essential'
+    'cb sys libs for ruby',        # defined elsewhere
+    # 'cb git', # THIS MIGHT NEED A DIFFERENT NAME
+    'cb curl',                     # defined elsewhere
+    # 'cb sys libs for rvm rubies',
+    'cb build-essential'
 
   met? {
     nil | `sudo su #{var :username} -l -c 'rvm --version'`[/rvm \d+\.\d+\.\d+ /]

@@ -1,28 +1,24 @@
-dep 'rubygems' do
+dep 'cb rubygems' do
   requires \
-    'ruby',
-    'rubygems installed',
-    'rubygems sources'
+    'cb ruby',
+    'cb rubygems installed and up to date',
+    'cb rubygems sources'
 end
 
 
-dep 'rubygems installed' do
-  requires 'rubygems-1.3.5'
-  # requires 'rubygems deb', # this is the ubuntu/debian build of rubygems (source install is preferred)
-  
-  # uncomment the met? and meet blocks to have babushka update the installed rubygems to the latest
-  # leave the met? and meet blocks commented out if you don't need >1.3.5 as the check takes some time
-  
+dep 'cb rubygems installed and up to date' do
+  requires 'cb rubygems-1.3.5'
+  # uncomment the following to update the installed rubygems to the latest, otherwise save time and just use 1.3.5
   # met? { `sudo gem update --system 2>&1`.include?('Nothing to update') }
   # meet { sudo "gem update --system" }
 end
 
 
-dep 'rubygems-1.3.5' do
+dep 'cb rubygems-1.3.5' do
   # http://wiki.rubyonrails.org/getting-started/installation/linux
   # http://rubyforge.org/projects/rubygems/
   # http://rubyforge.org/forum/forum.php?forum_id=33759
-  requires 'build-essential'
+  requires 'cb build-essential'
   met? { `/usr/local/bin/gem --version 2>&1`.include?("1.3.5\n") }
   meet { 
     Dir.chdir '/usr/local/src'
@@ -36,31 +32,32 @@ dep 'rubygems-1.3.5' do
 end
 
 
-dep 'rubygems sources' do
+dep 'cb rubygems sources' do
   requires \
-    'rubygems source rubyforge',
-    'rubygems source gemcutter',
-    'rubygems source github'
+    'cb rubygems source rubyforge',
+    'cb rubygems source gemcutter',
+    'cb rubygems source github'
 end
 
 
-dep 'rubygems source rubyforge' do
+dep 'cb rubygems source rubyforge' do
   # http://update.gemcutter.org/2009/10/26/transition.html
-  requires 'rubygems installed'
+  requires 'cb rubygems installed and up to date'
   met? { `gem sources`.include?('http://gems.rubyforge.org/') }
   meet { sudo "gem sources --add http://gems.rubyforge.org/" }
 end
 
-dep 'rubygems source gemcutter' do
+dep 'cb rubygems source gemcutter' do
   # http://update.gemcutter.org/2009/10/26/transition.html
-  requires 'rubygems installed'
+  requires 'cb rubygems installed and up to date'
   met? { `gem sources`.include?('http://gemcutter.org') }
   meet { sudo "gem sources --add http://gemcutter.org" }
 end
 
-dep 'rubygems source github' do
+dep 'cb rubygems source github' do
   # http://github.com/blog/515-gem-building-is-defunct
-  requires 'rubygems installed'
+  requires 'cb rubygems installed and up to date'
   met? { `gem sources`.include?('http://gems.github.com') }
   meet { sudo "gem sources --add http://gems.github.com" }
 end
+

@@ -1,25 +1,25 @@
-dep 'nginx' do
+dep 'cb nginx' do
   requires \
-    'nginx built and installed',
-    'nginx init script',
-    'nginx sys config and sites directories',
-    'nginx running'
+    'cb nginx built and installed',
+    'cb nginx init script',
+    'cb nginx sys config and sites directories',
+    'cb nginx running'
 end
 
 
-dep 'nginx built and installed' do
-  requires 'nginx 0.7.65'
+dep 'cb nginx built and installed' do
+  requires 'cb nginx 0.7.65'
 end
 
-dep 'nginx 0.7.65' do
+dep 'cb nginx 0.7.65' do
   # http://wiki.nginx.org/NginxInstall
   # http://wiki.nginx.org/NginxInstallOptions
   # http://www.cyberciti.biz/faq/debian-ubuntu-linux-install-libpcre3-dev/
   # http://freelancing-gods.com/posts/script_nginx
   requires \
-    'passenger for nginx',
-    'sys libs for nginx',
-    'build-essential'
+    'cb passenger for nginx',
+    'cb sys libs for nginx',
+    'cb build-essential'
   met? {
     `nginx -V 2>&1`.include?('nginx version: nginx/0.7.65') &&
     `nginx -V 2>&1`.include?('--with-pcre') &&
@@ -46,12 +46,12 @@ dep 'nginx 0.7.65' do
   }
 end
 
-dep 'passenger for nginx' do
+dep 'cb passenger for nginx' do
   # http://www.modrails.com/documentation/Users%20guide%20Nginx.html
   requires \
-    'rubygems',
-    'gem rake',
-    'build-essential'
+    'cb rubygems',
+    'cb gem rake',
+    'cb build-essential'
   met? { File.exist?(`passenger-config --root 2>&1`.chomp + '/ext/nginx/HelperServer') }
   meet {
     sudo "gem install passenger"
@@ -60,24 +60,24 @@ dep 'passenger for nginx' do
   }
 end
 
-dep 'sys libs for nginx' do
+dep 'cb sys libs for nginx' do
   requires \
-    'libpcre3-dev', # required for ULR rewriting
-    'libssl-dev',   # required for HTTPS            # defined elsewhere
-    'zlib1g-dev'                                    # defined elsewhere
+    'cb libpcre3-dev', # required for ULR rewriting
+    'cb libssl-dev',   # required for HTTPS            # defined elsewhere
+    'cb zlib1g-dev'                                    # defined elsewhere
 end
 
-dep 'libpcre3-dev' do
+dep 'cb libpcre3-dev' do
   met? { `dpkg -s libpcre3-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install libpcre3-dev" }
 end
 
 
-dep 'nginx init script' do
+dep 'cb nginx init script' do
   # http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-adding-an-nginx-init-script
   requires \
-    'lsb-base',
-    'nginx built and installed'
+    'cb lsb-base',
+    'cb nginx built and installed'
   met? {
     File.exist?('/etc/init.d/nginx') &&
     `update-rc.d -n nginx defaults 2>&1`.include?('System start/stop links for /etc/init.d/nginx already exist.')
@@ -89,17 +89,17 @@ dep 'nginx init script' do
   }
 end
 
-dep 'lsb-base' do
+dep 'cb lsb-base' do
   met? { `dpkg -s lsb-base 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install lsb-base" }
 end
 
 
-dep 'nginx sys config and sites directories' do
+dep 'cb nginx sys config and sites directories' do
   # http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-nginx-from-source-layout
   requires \
-    'nginx built and installed',
-    'diff'
+    'cb nginx built and installed',
+    'cb diff'
   met? {
     File.exist?('/usr/local/nginx/sites-available') &&
     File.exist?('/usr/local/nginx/sites-enabled') &&
@@ -112,16 +112,16 @@ dep 'nginx sys config and sites directories' do
   }
 end
 
-dep 'diff' do
+dep 'cb diff' do
   met? { `dpkg -s diff 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install diff" }
 end
 
 
-dep 'nginx running' do
+dep 'cb nginx running' do
   requires \
-    'nginx built and installed',
-    'nginx init script'
+    'cb nginx built and installed',
+    'cb nginx init script'
   met? { File.exist?('/usr/local/nginx/logs/nginx.pid') }
   meet { sudo "/etc/init.d/nginx start" }
 end
