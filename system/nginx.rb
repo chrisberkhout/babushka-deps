@@ -2,7 +2,7 @@ dep 'cb nginx' do
   requires \
     'cb nginx built and installed',
     'cb nginx init script',
-    'cb nginx sys config and sites directories',
+    'cb nginx sites directories and sys config',
     'cb nginx running'
 end
 
@@ -37,7 +37,7 @@ dep 'cb nginx 0.7.65' do
       ./configure \
           --with-pcre \
           --with-http_ssl_module \
-          --add-module=`passenger-config --root`/ext/nginx
+          --add-module=#{`passenger-config --root`.chomp}/ext/nginx
     END_OF_STRING
     shell config_cmd
     shell 'make'
@@ -62,7 +62,7 @@ end
 
 dep 'cb sys libs for nginx' do
   requires \
-    'cb libpcre3-dev', # required for ULR rewriting
+    'cb libpcre3-dev', # required for URL rewriting
     'cb libssl-dev',   # required for HTTPS            # defined elsewhere
     'cb zlib1g-dev'                                    # defined elsewhere
 end
@@ -95,26 +95,21 @@ dep 'cb lsb-base' do
 end
 
 
-dep 'cb nginx sys config and sites directories' do
+dep 'cb nginx sites directories and sys config' do
   # http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-nginx-from-source-layout
   requires \
-    'cb nginx built and installed',
-    'cb diff'
+    'cb nginx built and installed'
   met? {
     File.exist?('/usr/local/nginx/sites-available') &&
     File.exist?('/usr/local/nginx/sites-enabled') &&
-    `diff /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.default`.chomp != '';
+    !changed_from_erb?('/usr/local/nginx/conf/nginx.conf', 'nginx/nginx.conf.erb')
   }
   meet {
     sudo "mkdir /usr/local/nginx/sites-available"
     sudo "mkdir /usr/local/nginx/sites-enabled"
     render_erb "nginx/nginx.conf.erb", :to => '/usr/local/nginx/conf/nginx.conf', :sudo => true
+    sudo "/etc/init.d/nginx restart" if File.exist?('/usr/local/nginx/logs/nginx.pid')
   }
-end
-
-dep 'cb diff' do
-  met? { `dpkg -s diff 2>&1`.include?("\nStatus: install ok installed\n") }
-  meet { sudo "apt-get -y install diff" }
 end
 
 
@@ -125,4 +120,3 @@ dep 'cb nginx running' do
   met? { File.exist?('/usr/local/nginx/logs/nginx.pid') }
   meet { sudo "/etc/init.d/nginx start" }
 end
-
