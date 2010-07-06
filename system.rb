@@ -1,4 +1,8 @@
 dep 'cb system' do
+    requires 'cb system base'
+end
+
+dep 'cb system base' do
   requires \
     'cb ubuntu karmic 9.10 or later', # just because that's what I have been writing my deps on
     'cb time setup',
