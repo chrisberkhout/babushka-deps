@@ -1,68 +1,60 @@
-dep 'cb rvm option' do
-  requires 'cb rvm'
-  setup {
-    define_var :install_rvm,
-      :message => "System ruby is \""+`ruby -v 2>&1`.chomp+"\" do you want to install your own in an RVM?",
-      :choices => ['yes', 'no'],
-      :default => 'no'
-    ask_for_var :install_rvm.to_s
-    definer.payload[:requires].delete 'cb rvm' if var(:install_rvm)=='no'
-  }
-end
-
 dep 'cb rvm' do
+  # http://rvm.beginrescueend.com/rvm/install/
   requires \
-    'cb sys libs for ruby',        # defined elsewhere
-    # 'cb git', # THIS MIGHT NEED A DIFFERENT NAME
     'cb curl',                     # defined elsewhere
-    # 'cb sys libs for rvm rubies',
-    'cb build-essential'
+    'cb build-essential',          # defined elsewhere
+    #'cb sys libs for jruby',
+    #'cb sys libs for ironruby',
+    'cb sys libs for mri and ree',
+    'cb sys libs for ruby'         # defined elsewhere
 
-  met? {
-    nil | `sudo su #{var :username} -l -c 'rvm --version'`[/rvm \d+\.\d+\.\d+ /]
-    # problem with it not running without "-l" is probably because .bashrc is fucked (has a return)
-    #   - redo .bashrc by hand and test command without -l by hand
-    # what about just with sudo?
-    # what about in later deps?
-    #   - test met? with hand made .bashrc
-    #   - adjust babushka to fix .bashrc
-    # note '-' maybe not working as '-l'
-
+  met? { 
+    shell('rvm --version')[/rvm \d+\.\d+\.\d+ /] 
   }
-
   meet {
-    as = { :as => var(:username) }
-    old_home = ENV['HOME']; home = ENV['HOME'] = "/home/#{var :username}" # this changes what '~' points to
-
-    sudo "mkdir -p #{home}/.rvm/src/", as
-    Dir.chdir "#{home}/.rvm/src"
-    sudo "rm -rf ./rvm/", as
-    sudo "git clone git://github.com/wayneeseguin/rvm.git", as
+    shell "mkdir -p ~/.rvm/src/"
+    Dir.chdir(File.expand_path("~/.rvm/src"))
+    shell "rm -rf ./rvm/"
+    shell "git clone git://github.com/wayneeseguin/rvm.git"
     Dir.chdir "rvm"
-    sudo "./install", as
+    shell "./install"
 
-    line_to_add = "\nif [[ -s /home/#{var :username}/.rvm/scripts/rvm ]] ; then source /home/#{var :username}/.rvm/scripts/rvm ; fi\n"
-    sudo("echo \"#{line_to_add}\" >> ~/.bashrc", as)
-    sudo("echo \"#{line_to_add}\" >> ~/.profile", as) if File.exist?(File.expand_path("~/.profile"))
-    sudo("echo \"#{line_to_add}\" >> ~/.bash_profile", as) if File.exist?(File.expand_path("~/.bash_profile"))
+    line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /home/#{var :username}/.rvm/scripts/rvm ]] ; then source /home/#{var :username}/.rvm/scripts/rvm ; fi\n"
+    shell "echo \"#{line_to_add}\" >> ~/.bashrc" if File.exist?(File.expand_path("~/.bashrc"))
+    shell "echo \"#{line_to_add}\" >> ~/.profile" if File.exist?(File.expand_path("~/.profile"))
+    shell "echo \"#{line_to_add}\" >> ~/.bash_profile" if File.exist?(File.expand_path("~/.bash_profile"))
     
-    ENV['HOME'] = old_home
+    # set a default ruby!
   }
-
-
 end
 
 
-# mkdir -p ~/.rvm/src/ && cd ~/.rvm/src && rm -rf ./rvm/ && git clone git://github.com/wayneeseguin/rvm.git && cd rvm && ./install
-# 
-# - install with command line from http://rvm.beginrescueend.com/install/
-#   do `sudo apt-get -y install zlib1g-dev` (AND anything else that other rubies may need)
-#   add to .bash_profile: "if [[ -s /home/chrisberkhout/.rvm/scripts/rvm ]] ; then source /home/chrisberkhout/.rvm/scripts/rvm ; fi"
+dep 'cb sys libs for mri and ree' do
+  requires \
+    'cb libssl-dev',        # defined elsewhere
+    'cb libreadline5-dev',  # defined elsewhere
+    'cb zlib1g-dev',        # defined elsewhere
+    'cb build-essential',   # defined elsewhere
+    'cb bison',             # defined elsewhere
+    'cb libxml2-dev'
+end
 
- # *  patch is required (for ree, some ruby head's).
- # *  For JRuby (if you wish to use it) you will need:
- #    $ aptitude install curl sun-java6-bin sun-java6-jre sun-java6-jdk
- # *  For MRI & ree (if you wish to use it) you will need:
- #    $ aptitude install curl bison build-essential zlib1g-dev libssl-dev libreadline5-dev libxml2-dev git-core
- # *  For IronRuby (if you wish to use it) you will need:
- #    $ aptitude install curl mono-2.0-devel
+dep 'cb libxml2-dev' do
+  met? { `dpkg -s libxml2-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libxml2-dev" }
+end
+
+
+dep 'cb sys libs for jruby' do
+  requires 'cb java6'
+end
+
+
+dep 'cb sys libs for ironruby' do
+  requires 'cb mono-2.0-devel'
+end
+
+dep 'cb mono-2.0-devel' do
+  met? { `dpkg -s mono-2.0-devel 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install mono-2.0-devel" }
+end

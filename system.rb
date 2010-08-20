@@ -5,6 +5,7 @@ end
 dep 'cb system base' do
   requires \
     'cb ubuntu karmic 9.10 or later', # just because that's what I have been writing my deps on
+    'cb admin group',
     'cb time setup',
     'cb ssh server',
     'cb known hosts',

@@ -3,12 +3,8 @@ dep 'cb user' do
   requires \
     'cb account'
 
-
-
-    # 'cb site dir',
-    # 'cb rvm option'
+    # site dir
+    # project
     
-  setup {
-    define_var  :username, :message => 'Account username for this site?'
-  }
+  setup { define_var  :username, :message => 'What is the user name?' }
 end

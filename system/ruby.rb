@@ -38,9 +38,10 @@ dep 'cb sys libs for ruby' do
   requires \
     'cb libssl-dev',
     'cb libreadline5-dev',
-    'cb zlib1g-dev'
+    'cb zlib1g-dev',
+    'cb libxml2-dev', # for MRI & REE
+    'cb bison'        # for MRI & REE
 end
-
 
 dep 'cb libssl-dev' do
   met? { `dpkg -s libssl-dev 2>&1`.include?("\nStatus: install ok installed\n") }
