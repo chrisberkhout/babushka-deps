@@ -1,5 +1,5 @@
-dep 'cb site dir' do
-  requires 'cb account'
+dep 'site dir' do
+  requires 'account'
   met? { File.exist?('/home/'+var(:username)+'/'+var(:primary_domain)) }
   meet {
     sudo 'mkdir /home/'+var(:username)+'/'+var(:primary_domain)

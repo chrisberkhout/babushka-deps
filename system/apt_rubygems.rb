@@ -2,30 +2,30 @@
 # This version has 'gem update --system' diabled.
 # It doesn't create wrappers for gem executables in /usr/bin, so the gem 'EXECUTABLE DIRECTORY' needs to be added to the paths.
 
-dep 'cb apt rubygems' do
+dep 'apt rubygems' do
   requires \
-    'cb apt rubygems package installed',
-    'cb apt rubygems path setup'
+    'apt rubygems package installed',
+    'apt rubygems path setup'
 end
 
 
-dep 'cb apt rubygems package installed' do
+dep 'apt rubygems package installed' do
   met? { `dpkg -s rubygems 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { 
     sudo "apt-get -y install rubygems"
   }
 end
 
-dep 'cb apt rubygems path setup' do
+dep 'apt rubygems path setup' do
   requires \
-    'cb apt rubygems bin dir added to path in profile',
-    'cb apt rubygems bin dir in secure path',
-    'cb apt rubygems bin dir in current path'
+    'apt rubygems bin dir added to path in profile',
+    'apt rubygems bin dir in secure path',
+    'apt rubygems bin dir in current path'
 end
 
 
-dep 'cb apt rubygems bin dir added to path in profile' do
-  requires 'cb apt rubygems package installed'
+dep 'apt rubygems bin dir added to path in profile' do
+  requires 'apt rubygems package installed'
   met? { File.exists?('/etc/profile.d/add_apt_rubygems_bin_dir_to_path.sh') }
   meet { 
     set :apt_rubygems_bin_dir, `gem env`.scan(/EXECUTABLE DIRECTORY: (.*)$/).first.first
@@ -34,8 +34,8 @@ dep 'cb apt rubygems bin dir added to path in profile' do
   }
 end
 
-dep 'cb apt rubygems bin dir in current path' do
-  requires 'cb apt rubygems package installed'
+dep 'apt rubygems bin dir in current path' do
+  requires 'apt rubygems package installed'
   met? { 
     set :apt_rubygems_bin_dir, `gem env`.scan(/EXECUTABLE DIRECTORY: (.*)$/).first.first
     ENV['PATH'].include?(var :apt_rubygems_bin_dir)
@@ -45,10 +45,10 @@ dep 'cb apt rubygems bin dir in current path' do
   }
 end
 
-dep 'cb apt rubygems bin dir in secure path' do
+dep 'apt rubygems bin dir in secure path' do
   # With Ubuntu/Debian's rubygems this has to be done for sudo to be able to use gem executables (e.g. rake).
   # This only works on ubuntu karmic or later.
-  requires 'cb apt rubygems package installed'
+  requires 'apt rubygems package installed'
   met? { 
     dir = set :apt_rubygems_bin_dir, `gem env`.scan(/EXECUTABLE DIRECTORY: (.*)$/).first.first
     `sudo env`[/^PATH=.*#{dir}.*$/].is_a?(String)

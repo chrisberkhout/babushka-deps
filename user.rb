@@ -1,7 +1,7 @@
-dep 'cb user' do
-  # requires 'cb system'
+dep 'user' do
+  # requires 'system'
   requires \
-    'cb account'
+    'account'
 
     # site dir
     # project

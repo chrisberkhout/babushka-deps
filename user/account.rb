@@ -1,17 +1,17 @@
-dep 'cb account' do
+dep 'account' do
   requires \
-    'cb account with password',
-    'cb member of admin'
+    'account with password',
+    'member of admin'
 end
 
 
-dep 'cb account with password' do
+dep 'account with password' do
   met? { grep(/^#{var(:username)}:/, '/etc/passwd') }
   meet { sudo "adduser #{var(:username)} --gecos \"\"" }
 end
 
-dep 'cb member of admin' do
-  requires 'cb admin group'
+dep 'member of admin' do
+  requires 'admin group'
   met? { shell("groups #{var(:username)}")[/\badmin\b/] }
   meet { sudo "usermod -a -G admin #{var(:username)}" }
 end

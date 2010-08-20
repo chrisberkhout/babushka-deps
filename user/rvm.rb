@@ -1,12 +1,12 @@
-dep 'cb rvm' do
+dep 'rvm' do
   # http://rvm.beginrescueend.com/rvm/install/
   requires \
-    'cb curl',                     # defined elsewhere
-    'cb build-essential',          # defined elsewhere
-    #'cb sys libs for jruby',
-    #'cb sys libs for ironruby',
-    'cb sys libs for mri and ree',
-    'cb sys libs for ruby'         # defined elsewhere
+    'curl',                     # defined elsewhere
+    'build-essential',          # defined elsewhere
+    #'sys libs for jruby',
+    #'sys libs for ironruby',
+    'sys libs for mri and ree',
+    'sys libs for ruby'         # defined elsewhere
 
   met? { 
     shell('rvm --version')[/rvm \d+\.\d+\.\d+ /] 
@@ -29,32 +29,32 @@ dep 'cb rvm' do
 end
 
 
-dep 'cb sys libs for mri and ree' do
+dep 'sys libs for mri and ree' do
   requires \
-    'cb libssl-dev',        # defined elsewhere
-    'cb libreadline5-dev',  # defined elsewhere
-    'cb zlib1g-dev',        # defined elsewhere
-    'cb build-essential',   # defined elsewhere
-    'cb bison',             # defined elsewhere
-    'cb libxml2-dev'
+    'libssl-dev',        # defined elsewhere
+    'libreadline5-dev',  # defined elsewhere
+    'zlib1g-dev',        # defined elsewhere
+    'build-essential',   # defined elsewhere
+    'bison',             # defined elsewhere
+    'libxml2-dev'
 end
 
-dep 'cb libxml2-dev' do
+dep 'libxml2-dev' do
   met? { `dpkg -s libxml2-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install libxml2-dev" }
 end
 
 
-dep 'cb sys libs for jruby' do
-  requires 'cb java6'
+dep 'sys libs for jruby' do
+  requires 'java6'
 end
 
 
-dep 'cb sys libs for ironruby' do
-  requires 'cb mono-2.0-devel'
+dep 'sys libs for ironruby' do
+  requires 'mono-2.0-devel'
 end
 
-dep 'cb mono-2.0-devel' do
+dep 'mono-2.0-devel' do
   met? { `dpkg -s mono-2.0-devel 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install mono-2.0-devel" }
 end

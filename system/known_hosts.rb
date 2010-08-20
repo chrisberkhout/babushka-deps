@@ -1,9 +1,9 @@
-dep 'cb known hosts' do
-  requires 'cb github in known hosts'
+dep 'known hosts' do
+  requires 'github in known hosts'
 end
 
 
-dep 'cb github in known hosts' do
+dep 'github in known hosts' do
   met? { grep var(:github_key), var(:system_know_hosts) }
   meet { append_to_file var(:github_key), var(:system_know_hosts), :sudo => true }
   setup {
