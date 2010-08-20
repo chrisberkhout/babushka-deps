@@ -11,9 +11,7 @@ end
 
 dep 'apt rubygems package installed' do
   met? { `dpkg -s rubygems 2>&1`.include?("\nStatus: install ok installed\n") }
-  meet { 
-    sudo "apt-get -y install rubygems"
-  }
+  meet { sudo "apt-get -y install rubygems" }
 end
 
 dep 'apt rubygems path setup' do
