@@ -1,4 +1,9 @@
+dep 'java' do
+  requires 'java6'
+end
+
 dep 'java6' do
+  # license acceptance automation: http://wiki.debian.org/JavaFAQ
   requires \
     'sun-java6-jre',
     'sun-java6-jdk'

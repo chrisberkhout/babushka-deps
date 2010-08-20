@@ -9,7 +9,7 @@ dep 'rvm' do
     'sys libs for ruby'         # defined elsewhere
 
   met? { 
-    shell('rvm --version')[/rvm \d+\.\d+\.\d+ /] 
+    `rvm --version 2>&1`[/rvm \d+\.\d+\.\d+ /]
   }
   meet {
     shell "mkdir -p ~/.rvm/src/"
