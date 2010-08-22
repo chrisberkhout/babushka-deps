@@ -48,6 +48,7 @@ end
 
 dep 'passenger for nginx' do
   # http://www.modrails.com/documentation/Users%20guide%20Nginx.html
+  # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
   requires \
     'rubygems',
     'gem rake',
