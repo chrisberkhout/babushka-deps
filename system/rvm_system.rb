@@ -29,7 +29,9 @@ dep 'rvm system' do
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
 
-    sudo "curl -L http://bit.ly/rvm-install-system-wide > /tmp/rvm-install-system-wide; bash /tmp/rvm-install-system-wide; rm /tmp/rvm-install-system-wide"
+    sudo "curl -L http://bit.ly/rvm-install-system-wide > /tmp/rvm-install-system-wide"
+    sudo "bash /tmp/rvm-install-system-wide"
+    sudo "rm /tmp/rvm-install-system-wide"
 
     line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /usr/local/lib/rvm ]] ; then source /usr/local/lib/rvm ; fi\n"
     # For login shells:
