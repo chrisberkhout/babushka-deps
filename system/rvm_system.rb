@@ -47,7 +47,8 @@ dep 'rvm system' do
     # To use rvm without closing and restarting the shell, run the command in a bash -lc subshell
     # and suck relevant environment variables up into the current environment. e.g:
     ruby_vars = ['PATH','GEM_HOME','GEM_PATH','BUNDLE_PATH','MY_RUBY_HOME','IRBRC','RUBYOPT','gemset','MANPATH']
-    suck_env(`sudo bash -lc "rvm --default system; echo; env"`, ruby_vars)
+    sudo 'bash -lc "rvm --default system"'
+    suck_env(`sudo bash -lc "rvm use system; echo; env"`, ruby_vars)
   }
 end
 
