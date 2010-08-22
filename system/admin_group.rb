@@ -12,6 +12,6 @@ end
 
 dep 'admins can sudo' do
   requires 'admin group exists'
-  met? { !sudo('echo; cat /etc/sudoers').split("\n").grep(/^%admin/).empty? }
+  met? { !shell('echo && sudo -u root cat /etc/sudoers').split("\n").grep(/^%admin/).empty? }
   meet { append_to_file '%admin  ALL=(ALL) ALL', '/etc/sudoers', :sudo => true }
 end
