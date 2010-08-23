@@ -1,19 +1,13 @@
 dep 'rvm system' do
-  # 'rvm system' has PROBLEMS ('rvm user' seems okay). See met?{} for details.
-  #
   # http://rvm.beginrescueend.com/rvm/install/
   #
   # This does a system-wide (multi-user) rvm install. 
   # Individual users can additionally have their own user installations.
   #
-  # With system-wide + user installs, http://rvm.beginrescueend.com/deployment/system-wide/ says
-  #   "you need to edit ~/.rvmrc to manually override the path values set in /etc/rvmrc", but
-  #   it looks like this is already handled with an if clause in /etc/rvmrc.
+  # System-wide rvm requires users to be in the rvm group. See dep 'member of rvm'.
+  # 
+  # NEVER SET A SYSTEM-WIDE DEFAULT RUBY! It would clobber the existing source install at /usr/local/bin/ruby.
   #
-  # Getting rvm to be used by non-user stuff like passenger is tricky:
-  #   http://rvm.beginrescueend.com/integration/passenger/
-  #   (discussion of upcoming multiple rubies support) http://bit.ly/8ZMLzg
-
   requires \
     'curl',                     # defined elsewhere
     'build-essential',          # defined elsewhere
@@ -23,15 +17,10 @@ dep 'rvm system' do
     'sys libs for ruby'         # defined elsewhere
 
   met? { 
-    # This works if rvm has been installed, even if the shell hasn't been closed and reopened
+    # This works if system-wide rvm has been installed, even if the shell hasn't been closed and reopened.
     File.exist?(File.expand_path("/usr/local/lib/rvm")) && 
-    `sudo bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /]
-    # Problems with 'rvm system':
-    # 1) Setting a default ruby puts a script in /usr/local/bin/ruby to load the appropriate environment and
-    #    exec the chosen ruby, but it seems to cause an infinite loop that ends with the error message:
-    #    'exec: 12: gem: Argument list too long'.
-    # 2) It is not clear that rvm can be used immediately after install, as /etc/groups isn't reread 
-    #    until the next login.
+    `sudo bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
+    `sudo bash -lc "type rvm | head -n1 2>&1"`[/^rvm is a function/]
   }
   meet {
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
@@ -49,14 +38,16 @@ dep 'rvm system' do
     # For non-login shells: (prepend so that it runs before '[ -z "$PS1" ] && return' does an early return)
     sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc" if File.exist?("/etc/bash.bashrc")
     
-    # Add root to the rvm group. This has to be done for every user that wants to participate.
-    sudo "usermod -aG rvm root"
+    sudo "usermod -aG rvm root" # Add root to the rvm group.
+    admins = `sudo cat /etc/group | grep ^admin`[/^admin\:.*?\:.*?\:(.*?)\n/, 1].split(',')
+    admins.each { |u| sudo "usermod -aG rvm #{u}" } # Add all members of the admin group to the rvm group
 
     # To use rvm without closing and restarting the shell, run the command in a bash -lc subshell
     # and suck relevant environment variables up into the current environment. e.g:
     ruby_vars = ['PATH','GEM_HOME','GEM_PATH','BUNDLE_PATH','MY_RUBY_HOME','IRBRC','RUBYOPT','gemset','MANPATH']
-    sudo 'bash -lc "rvm --default system"'
     suck_env(`sudo bash -lc "rvm use system; echo; env"`, ruby_vars)
+
+    # NEVER SET A SYSTEM-WIDE DEFAULT RUBY! It would clobber the existing source install at /usr/local/bin/ruby.
   }
 end
 

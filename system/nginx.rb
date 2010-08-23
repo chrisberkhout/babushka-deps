@@ -48,6 +48,7 @@ end
 
 dep 'passenger for nginx' do
   # http://www.modrails.com/documentation/Users%20guide%20Nginx.html
+  # passenger needs extra love to use an RVM ruby: http://rvm.beginrescueend.com/integration/passenger/
   # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
   requires \
     'rubygems',

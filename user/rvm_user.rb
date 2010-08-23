@@ -1,17 +1,13 @@
 dep 'rvm user' do
   # http://rvm.beginrescueend.com/rvm/install/
   #
-  # This installs rvm for the current user only. According to rvm deployment best practices, system-wide install is better:
-  #   http://rvm.beginrescueend.com/deployment/best-practices/
+  # This installs rvm for the current user only. 
+  # System-wide install is preferable according to: http://rvm.beginrescueend.com/deployment/best-practices/
   #
   # With system-wide + user installs, http://rvm.beginrescueend.com/deployment/system-wide/ says
   #   "you need to edit ~/.rvmrc to manually override the path values set in /etc/rvmrc", but
   #   it looks like this is already handled with an if clause in /etc/rvmrc.
   #
-  # Getting rvm to be used by non-user stuff like passenger is tricky:
-  #   http://rvm.beginrescueend.com/integration/passenger/
-  #   (discussion of upcoming multiple rubies support) http://bit.ly/8ZMLzg
-
   requires \
     'curl',                     # defined elsewhere
     'build-essential',          # defined elsewhere
@@ -21,13 +17,12 @@ dep 'rvm user' do
     'sys libs for ruby'         # defined elsewhere
 
   met? { 
-    # This works if rvm has been installed, even if the shell hasn't been closed and reopened
+    # This works if user rvm has been installed, even if the shell hasn't been closed and reopened.
     File.exist?(File.expand_path("~/.rvm/scripts/rvm")) && 
-    `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /]
+    `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
+    `bash -lc "type rvm | head -n1"`[/^rvm is a function/]
   }
   meet {
-    username = `whoami`.chomp
-    
     shell "mkdir -p ~/.rvm/src/"
     Dir.chdir(File.expand_path("~/.rvm/src"))
     shell "rm -rf ./rvm/"
@@ -35,6 +30,7 @@ dep 'rvm user' do
     Dir.chdir "rvm"
     shell "./install"
 
+    username = `whoami`.chomp
     line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /home/#{username}/.rvm/scripts/rvm ]] ; then source /home/#{username}/.rvm/scripts/rvm ; fi\n"
     # For login shells:
     shell "echo \"#{line_to_add}\" >> ~/.bash_profile" if File.exist?(File.expand_path("~/.bash_profile"))
