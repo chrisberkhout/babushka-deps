@@ -1,4 +1,6 @@
 dep 'rvm system' do
+  # 'rvm system' has PROBLEMS ('rvm user' seems okay). See met?{} for details.
+  #
   # http://rvm.beginrescueend.com/rvm/install/
   #
   # This does a system-wide (multi-user) rvm install. 
@@ -24,6 +26,12 @@ dep 'rvm system' do
     # This works if rvm has been installed, even if the shell hasn't been closed and reopened
     File.exist?(File.expand_path("/usr/local/lib/rvm")) && 
     `sudo bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /]
+    # Problems with 'rvm system':
+    # 1) Setting a default ruby puts a script in /usr/local/bin/ruby to load the appropriate environment and
+    #    exec the chosen ruby, but it seems to cause an infinite loop that ends with the error message:
+    #    'exec: 12: gem: Argument list too long'.
+    # 2) It is not clear that rvm can be used immediately after install, as /etc/groups isn't reread 
+    #    until the next login.
   }
   meet {
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
