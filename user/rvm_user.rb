@@ -23,6 +23,9 @@ dep 'rvm user' do
     `bash -lc "type rvm | head -n1"`[/^rvm is a function/]
   }
   meet {
+    # Clear any existing rvm environment variables, so the install goes into the user's directory.
+    ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
+    
     shell "mkdir -p ~/.rvm/src/"
     Dir.chdir(File.expand_path("~/.rvm/src"))
     shell "rm -rf ./rvm/"
