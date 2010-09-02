@@ -2,7 +2,7 @@ dep 'account' do
   requires \
     'account with password',
     'member of admin',
-    'member of rvm if it exists'
+    'member of rvm'
 end
 
 
@@ -13,11 +13,13 @@ end
 
 dep 'member of admin' do
   requires 'admin group'
-  met? { shell("groups #{var(:username)}")[/\badmin\b/] }
-  meet { sudo "usermod -aG admin #{var(:username)}" }
+  met? { members_of('admin').include(var :username) }
+  meet { sudo "usermod -aG admin #{var :username}" }
 end
 
-dep 'member of rvm if it exists' do
-  met? { `cat /etc/group | grep ^rvm:`.empty? || shell("groups #{var(:username)}")[/\brvm\b/] }
-  meet { sudo "usermod -aG rvm #{var(:username)}" }
+dep 'member of rvm' do
+  # This will ensure the existance of the rvm group and :username's membership, even if system-wide rvm hasn't been installed.
+  requires 'rvm group'
+  met? { members_of('rvm').include(var :username) }
+  meet { sudo "usermod -aG rvm #{var :username}" }
 end

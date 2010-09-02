@@ -4,7 +4,8 @@ dep 'rvm system' do
   # This does a system-wide (multi-user) rvm install. 
   # Individual users can additionally have their own user installations.
   #
-  # System-wide rvm requires users to be in the rvm group. See dep 'member of rvm'.
+  # System-wide rvm requires users to be in the rvm group to have write access.
+  # This dep adds root and any admins to the rvm group. Also see the dep 'member of rvm'.
   # 
   # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
   #

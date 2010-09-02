@@ -15,3 +15,10 @@ dep 'admins can sudo' do
   met? { !`echo && sudo -u root cat /etc/sudoers`.split("\n").grep(/^%admin/).empty? }
   meet { append_to_file '%admin  ALL=(ALL) ALL', '/etc/sudoers', :sudo => true }
 end
+
+
+
+dep 'rvm group' do
+  met? { grep /^rvm\:/, '/etc/group' }
+  meet { sudo 'groupadd rvm' }
+end

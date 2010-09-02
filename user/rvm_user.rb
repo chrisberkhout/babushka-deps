@@ -1,12 +1,8 @@
 dep 'rvm user' do
   # http://rvm.beginrescueend.com/rvm/install/
   #
-  # This installs rvm for the current user only. 
+  # This installs rvm for the current user only. It can coexist a system-wide install.
   # System-wide install is preferable according to: http://rvm.beginrescueend.com/deployment/best-practices/
-  #
-  # With system-wide + user installs, http://rvm.beginrescueend.com/deployment/system-wide/ says
-  #   "you need to edit ~/.rvmrc to manually override the path values set in /etc/rvmrc", but
-  #   it looks like this is already handled with an if clause in /etc/rvmrc.
   #
   requires \
     'curl',                     # defined elsewhere
@@ -24,12 +20,12 @@ dep 'rvm user' do
     `bash -lc "env | grep ^rvm_path="`[/^rvm_path=#{ENV['HOME']}\/\.rvm$/]
   }
   meet {
-    # This file sets variables that override the system-wide settings with user-specific settings.
-    # render_erb "rvm_user/rvmrc.erb", :to => '~/.rvmrc'    
+    # This file sets variables for user-specific rvm (overriding /etc/rvmrc).
+    render_erb "rvm_user/rvmrc.erb", :to => '~/.rvmrc'    
     
     # Load those variables (just in case the rvm install script starts using different defaults).
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
-    # suck_env(`bash -lc "source ~/.rvmrc; echo; env"`, /^rvm_/)
+    suck_env(`bash -lc "source ~/.rvmrc; echo; env"`, /^rvm_/)
     
     shell "mkdir -p ~/.rvm/src/"
     Dir.chdir(File.expand_path("~/.rvm/src"))
