@@ -21,7 +21,9 @@ dep 'rvm system' do
     # This works if system-wide rvm has been installed, even if the shell hasn't been closed and reopened.
     File.exist?(File.expand_path("/usr/local/lib/rvm")) && 
     `sudo bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
-    `sudo bash -lc "type rvm | head -n1 2>&1"`[/^rvm is a function/]
+    `sudo bash -lc "type rvm | head -n1 2>&1"`[/^rvm is a function/] &&
+    `bash -lc "env | grep ^rvm_path="`[/^\/usr\/local\/rvm$/] &&
+    `bash -lc "which rvm"`[/^\/usr\/local\/bin\/rvm$/]
   }
   meet {
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.

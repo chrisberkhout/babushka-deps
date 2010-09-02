@@ -17,7 +17,8 @@ dep 'rvm user' do
     File.exist?(File.expand_path("~/.rvm/scripts/rvm")) && 
     `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
     `bash -lc "type rvm | head -n1"`[/^rvm is a function/] &&
-    `bash -lc "env | grep ^rvm_path="`[/^rvm_path=#{ENV['HOME']}\/\.rvm$/]
+    `bash -lc "env | grep ^rvm_path="`[/^rvm_path=#{ENV['HOME']}\/\.rvm$/] &&
+    `bash -lc "which rvm"`[/^#{ENV['HOME']}\/\.rvm\/bin\/rvm$/]
   }
   meet {
     # This file sets variables for user-specific rvm (overriding /etc/rvmrc).
