@@ -39,8 +39,7 @@ dep 'rvm system' do
     sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc" if File.exist?("/etc/bash.bashrc")
     
     sudo "usermod -aG rvm root" # Add root to the rvm group.
-    admins = `sudo cat /etc/group | grep ^admin`[/^admin\:.*?\:.*?\:(.*?)\n/, 1].split(',')
-    admins.each { |u| sudo "usermod -aG rvm #{u}" } # Add all members of the admin group to the rvm group
+    members_of('admin').each { |u| sudo "usermod -aG rvm #{u}" } # Add admins to the rvm group
 
     # To use rvm without closing and restarting the shell, run the command in a bash -lc subshell
     # and suck relevant environment variables up into the current environment. e.g:
