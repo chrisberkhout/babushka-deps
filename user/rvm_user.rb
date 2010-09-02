@@ -38,7 +38,7 @@ dep 'rvm user' do
     Dir.chdir "rvm"
     shell "./install"
 
-    line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /home/#{var :username}/.rvm/scripts/rvm ]] ; then source /home/#{var :username}/.rvm/scripts/rvm ; fi\n"
+    line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s #{ENV['HOME']}/.rvm/scripts/rvm ]] ; then source #{ENV['HOME']}/.rvm/scripts/rvm ; fi\n"
     # For login shells:
     shell "echo \"#{line_to_add}\" >> ~/.bash_profile" if File.exist?(File.expand_path("~/.bash_profile"))
     shell "echo \"#{line_to_add}\" >> ~/.bash_login" if File.exist?(File.expand_path("~/.bash_login"))
