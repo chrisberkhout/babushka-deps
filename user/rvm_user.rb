@@ -24,14 +24,12 @@ dep 'rvm user' do
     `bash -lc "env | grep ^rvm_path="`[/^rvm_path=#{ENV['HOME']}\/\.rvm$/]
   }
   meet {
-    define_var :username, :default => `whoami`.chomp
-
     # This file sets variables that override the system-wide settings with user-specific settings.
     # render_erb "rvm_user/rvmrc.erb", :to => '~/.rvmrc'    
     
     # Load those variables (just in case the rvm install script starts using different defaults).
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
-    suck_env(`bash -lc "shell ~/.rvmrc; echo; env"`, /^rvm_/)
+    # suck_env(`bash -lc "source ~/.rvmrc; echo; env"`, /^rvm_/)
     
     shell "mkdir -p ~/.rvm/src/"
     Dir.chdir(File.expand_path("~/.rvm/src"))
