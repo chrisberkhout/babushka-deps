@@ -6,7 +6,7 @@ dep 'rvm system' do
   #
   # System-wide rvm requires users to be in the rvm group. See dep 'member of rvm'.
   # 
-  # NEVER SET A SYSTEM-WIDE DEFAULT RUBY! It would clobber the existing source install at /usr/local/bin/ruby.
+  # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
   #
   requires \
     'curl',                     # defined elsewhere
@@ -47,7 +47,7 @@ dep 'rvm system' do
     ruby_vars = ['PATH','GEM_HOME','GEM_PATH','BUNDLE_PATH','MY_RUBY_HOME','IRBRC','RUBYOPT','gemset','MANPATH']
     suck_env(`sudo bash -lc "rvm use system; echo; env"`, ruby_vars)
 
-    # NEVER SET A SYSTEM-WIDE DEFAULT RUBY! It would clobber the existing source install at /usr/local/bin/ruby.
+    # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
   }
 end
 
