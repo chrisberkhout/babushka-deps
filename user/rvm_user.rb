@@ -20,11 +20,18 @@ dep 'rvm user' do
     # This works if user rvm has been installed, even if the shell hasn't been closed and reopened.
     File.exist?(File.expand_path("~/.rvm/scripts/rvm")) && 
     `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
-    `bash -lc "type rvm | head -n1"`[/^rvm is a function/]
+    `bash -lc "type rvm | head -n1"`[/^rvm is a function/] &&
+    `bash -lc "env | grep ^rvm_path="`[/^rvm_path=#{ENV['HOME']}\/\.rvm$/]
   }
   meet {
-    # Clear any existing rvm environment variables, so the install goes into the user's directory.
+    define_var :username, :default => `whoami`.chomp
+
+    # This file sets variables that override the system-wide settings with user-specific settings.
+    # render_erb "rvm_user/rvmrc.erb", :to => '~/.rvmrc'    
+    
+    # Load those variables (just in case the rvm install script starts using different defaults).
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
+    suck_env(`bash -lc "shell ~/.rvmrc; echo; env"`, /^rvm_/)
     
     shell "mkdir -p ~/.rvm/src/"
     Dir.chdir(File.expand_path("~/.rvm/src"))
@@ -33,19 +40,21 @@ dep 'rvm user' do
     Dir.chdir "rvm"
     shell "./install"
 
-    username = `whoami`.chomp
-    line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /home/#{username}/.rvm/scripts/rvm ]] ; then source /home/#{username}/.rvm/scripts/rvm ; fi\n"
+    line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /home/#{var :username}/.rvm/scripts/rvm ]] ; then source /home/#{var :username}/.rvm/scripts/rvm ; fi\n"
     # For login shells:
     shell "echo \"#{line_to_add}\" >> ~/.bash_profile" if File.exist?(File.expand_path("~/.bash_profile"))
     shell "echo \"#{line_to_add}\" >> ~/.bash_login" if File.exist?(File.expand_path("~/.bash_login"))
     shell "echo \"#{line_to_add}\" >> ~/.profile" if File.exist?(File.expand_path("~/.profile"))
     # For non-login shells: (prepend so that it runs before '[ -z "$PS1" ] && return' does an early return)
     shell "echo \"#{line_to_add}\" | cat - ~/.bashrc > ~/.bashrc.new && mv ~/.bashrc.new ~/.bashrc" if File.exist?(File.expand_path("~/.bashrc"))
+
+    # Set a user (not system!) default ruby
+    shell 'bash -lc "rvm --default system"'
     
     # To use rvm without closing and restarting the shell, run the command in a bash -lc subshell
     # and suck relevant environment variables up into the current environment. e.g:
     ruby_vars = ['PATH','GEM_HOME','GEM_PATH','BUNDLE_PATH','MY_RUBY_HOME','IRBRC','RUBYOPT','gemset','MANPATH']
-    shell 'bash -lc "rvm --default system"'
     suck_env(`bash -lc "rvm use system; echo; env"`, ruby_vars)
+
   }
 end
