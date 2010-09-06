@@ -2,7 +2,12 @@ dep 'rubygems' do
   requires \
     'ruby',
     'rubygems installed and up to date',
-    'rubygems sources'
+    'rubygems sources'  # defined elsewhere
+end
+
+
+dep 'rubygems installed somehow' do
+  met? { `gem --version 2>&1`[/\d\.\d\.\d\n/] }
 end
 
 
@@ -30,34 +35,3 @@ dep 'rubygems-1.3.5' do
     sudo  'ruby setup.rb'
   }
 end
-
-
-dep 'rubygems sources' do
-  requires \
-    'rubygems source rubyforge',
-    'rubygems source gemcutter',
-    'rubygems source github'
-end
-
-
-dep 'rubygems source rubyforge' do
-  # http://update.gemcutter.org/2009/10/26/transition.html
-  requires 'rubygems installed and up to date'
-  met? { `gem sources`.include?('http://gems.rubyforge.org/') }
-  meet { sudo "gem sources --add http://gems.rubyforge.org/" }
-end
-
-dep 'rubygems source gemcutter' do
-  # http://update.gemcutter.org/2009/10/26/transition.html
-  requires 'rubygems installed and up to date'
-  met? { `gem sources`.include?('http://gemcutter.org') }
-  meet { sudo "gem sources --add http://gemcutter.org" }
-end
-
-dep 'rubygems source github' do
-  # http://github.com/blog/515-gem-building-is-defunct
-  requires 'rubygems installed and up to date'
-  met? { `gem sources`.include?('http://gems.github.com') }
-  meet { sudo "gem sources --add http://gems.github.com" }
-end
-

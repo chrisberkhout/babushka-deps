@@ -10,8 +10,8 @@ dep 'system base' do
     'ssh server',
     'known hosts',
     'handy sys packages',
-    'ruby',
-    'rubygems',
-    'rubygems handy sys gems',
+    'rvm system default ree'
+    'rubygems sources',           # ! possible problem here (should be different for rvm rubygems)
+    'rubygems handy sys gems',    # ! possible problem here (should be different for rvm rubygems)
     'nginx'
 end
