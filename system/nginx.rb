@@ -51,7 +51,7 @@ dep 'passenger for nginx' do
   # passenger needs extra love to use an RVM ruby: http://rvm.beginrescueend.com/integration/passenger/
   # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
   requires \
-    'rubygems',
+    'rubygems installed somehow',
     'gem rake',
     'build-essential'
   met? { File.exist?(`passenger-config --root 2>&1`.chomp + '/ext/nginx/HelperServer') }
