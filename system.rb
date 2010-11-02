@@ -4,7 +4,7 @@ end
 
 dep 'system base' do
   requires \
-    'ubuntu karmic 9.10 or later', # just because that's what I have been writing my deps on
+    'ubuntu 10.04 or later', # just because that's what I have been writing my deps on
     'admin group',
     'time setup',
     'ssh server',
