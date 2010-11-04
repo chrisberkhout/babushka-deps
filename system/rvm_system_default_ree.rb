@@ -13,7 +13,7 @@ dep 'rvm system default ree' do
     # check that ree is installed and default
     `bash -lc "rvm list default"`[/\bree\-1\.8\.7\-2010\.02\b/] &&
     # check that the symlinks have been set
-    `ls -l /usr/local/bin/ruby`[/.*?\-\> \/usr\/local\/rvm\/wrappers\/ree\-1\.8\.7\-2010\.02\/ruby/]
+    `ls -l /usr/local/bin/ruby`[/.*?\-\> \/usr\/local\/rvm\/wrappers\/ree\-1\.8\.7\-2010\.02\/ruby/] &&
     `ls -l /usr/local/bin/gem`[/.*?\-\> \/usr\/local\/rvm\/wrappers\/ree\-1\.8\.7\-2010\.02\/gem/]
   }
   meet {
