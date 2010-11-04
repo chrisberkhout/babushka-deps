@@ -8,8 +8,7 @@ end
 dep 'avahi-daemon' do
   requires \
     'avahi-daemon installed',
-    'avahi-daemon configured',
-    'avahi-daemon running'
+    'avahi-daemon configured'
 end
 
 dep 'avahi-daemon installed' do
@@ -22,13 +21,7 @@ dep 'avahi-daemon configured' do
   # Without this change `ssh -vvv user@guesthostname.local.` times out on a IPv6 attempt before using IPv4.
   met? { grep /^publish\-aaaa\-on\-ipv4\=no$/, '/etc/avahi/avahi-daemon.conf' }
   meet { 
-    sudo "service avahi-daemon stop"
     change_line '#publish-aaaa-on-ipv4=yes', 'publish-aaaa-on-ipv4=no', '/etc/avahi/avahi-daemon.conf' 
-    sudo "service avahi-daemon start"
+    sudo "service avahi-daemon restart"
   }
-end
-
-dep 'avahi-daemon running' do
-  met? { `service avahi-daemon status 2>&1`.include?("avahi-daemon start/running") }
-  meet { sudo "service avahi-daemon start" }
 end
