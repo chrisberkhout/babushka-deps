@@ -4,14 +4,11 @@ end
 
 dep 'system base' do
   requires \
-    'ubuntu 10.04 or later', # just because that's what I have been writing my deps on
+    'ubuntu lucid 10.04 or later', # just because that's what I have been writing my deps on
     'admin group',
     'time setup',
+    'mdns',
     'ssh server',
     'known hosts',
-    'handy sys packages',
-    'rvm system default ree',
-    'rubygems sources',           # ! possible problem here (should be different for rvm rubygems)
-    'rubygems handy sys gems',    # ! possible problem here (should be different for rvm rubygems)
-    'nginx'
+    'handy sys packages'
 end
