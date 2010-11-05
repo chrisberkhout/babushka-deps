@@ -15,13 +15,13 @@ dep 'rvm system' do
     #'sys libs for jruby',       # not needed unless using jruby
     #'sys libs for ironruby',    # not needed unless using ironruby
     'sys libs for mri and ree',
-    'sys libs for ruby'         # defined elsewhere
+    'extra sys libs for ruby-head'
 
   met? { 
     # This works if system-wide rvm has been installed, even if the shell hasn't been closed and reopened.
     File.exist?(File.expand_path("/usr/local/lib/rvm")) && 
     `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
-    `bash -lc "type rvm | head -n1 2>&1"`[/^rvm is a function/] &&
+    `bash -lc "type rvm | head -n1" 2>&1`[/^rvm is a function/] &&
     `bash -lc "env | grep ^rvm_path="`[/^rvm_path=\/usr\/local\/rvm$/] &&
     `bash -lc "which rvm"`[/^\/usr\/local\/bin\/rvm$/]
   }
@@ -29,14 +29,17 @@ dep 'rvm system' do
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
 
-    sudo "curl -L http://bit.ly/rvm-install-system-wide > /tmp/rvm-install-system-wide"
+    shell "curl -L http://bit.ly/rvm-install-system-wide > /tmp/rvm-install-system-wide"
     sudo "bash /tmp/rvm-install-system-wide"
     sudo "rm /tmp/rvm-install-system-wide"
 
     line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /usr/local/lib/rvm ]] ; then source /usr/local/lib/rvm ; fi\n"
     # For login shells:
-    if File.exist?("/etc/profile.d")  then sudo "echo \"#{line_to_add}\" > /etc/profile.d/rvm-system-wide.sh" 
-    elsif File.exist?("/etc/profile") then sudo "echo \"#{line_to_add}\" >> /etc/profile" 
+    if File.exist?("/etc/profile.d") then 
+      sudo "echo \"#{line_to_add}\" > /etc/profile.d/rvm-system-wide.sh"
+      FileUtils.chmod 0755, '/etc/profile.d/rvm-system-wide.sh'
+    elsif File.exist?("/etc/profile") then 
+      sudo "echo \"#{line_to_add}\" >> /etc/profile" 
     end
     # For non-login shells: (prepend so that it runs before '[ -z "$PS1" ] && return' does an early return)
     sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc" if File.exist?("/etc/bash.bashrc")
@@ -57,17 +60,47 @@ end
 dep 'sys libs for mri and ree' do
   # this is according to the RVM install instructions
   requires \
-    'libssl-dev',        # defined elsewhere
-    'libreadline5-dev',  # defined elsewhere
-    'zlib1g-dev',        # defined elsewhere
-    'build-essential',   # defined elsewhere
     'bison',             # defined elsewhere
+    'openssl',
+    'zlib1g-dev',        # defined elsewhere
+    'libreadline5-dev',  # defined elsewhere
+    'libssl-dev',        # defined elsewhere
+    'libsqlite3-dev',
+    'sqlite3',
     'libxml2-dev'
 end
 
+dep 'openssl' do
+  met? { `dpkg -s openssl 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install openssl" }
+end
+dep 'libsqlite3-dev' do
+  met? { `dpkg -s libsqlite3-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libsqlite3-dev" }
+end
+dep 'sqlite3' do
+  met? { `dpkg -s sqlite3 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install sqlite3" }
+end
 dep 'libxml2-dev' do
   met? { `dpkg -s libxml2-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install libxml2-dev" }
+end
+
+
+dep 'extra sys libs for ruby-head' do
+  requires \
+    'subversion',
+    'autoconf'
+end
+
+dep 'subversion' do
+  met? { `dpkg -s subversion 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install subversion" }
+end
+dep 'autoconf' do
+  met? { `dpkg -s autoconf 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install autoconf" }
 end
 
 
