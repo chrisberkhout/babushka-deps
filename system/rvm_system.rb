@@ -37,7 +37,7 @@ dep 'rvm system' do
     # For login shells:
     if File.exist?("/etc/profile.d") then 
       sudo "echo \"#{line_to_add}\" > /etc/profile.d/rvm-system-wide.sh"
-      FileUtils.chmod 0755, '/etc/profile.d/rvm-system-wide.sh'
+      sudo "chmod 0755 /etc/profile.d/rvm-system-wide.sh"
     elsif File.exist?("/etc/profile") then 
       sudo "echo \"#{line_to_add}\" >> /etc/profile" 
     end
