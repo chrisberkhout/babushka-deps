@@ -10,6 +10,7 @@ dep 'rvm system' do
   # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
   #
   requires \
+    'rubygems deb'
     'curl',                     # defined elsewhere
     'build-essential',          # defined elsewhere
     #'sys libs for jruby',       # not needed unless using jruby
@@ -56,6 +57,11 @@ dep 'rvm system' do
   }
 end
 
+dep 'rubygems deb' do
+  met? { `dpkg -s rubygems 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install rubygems" }
+end
+  
 
 dep 'sys libs for mri and ree' do
   # this is according to the RVM install instructions
