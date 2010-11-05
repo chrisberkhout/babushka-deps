@@ -10,7 +10,7 @@ dep 'rvm system' do
   # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
   #
   requires \
-    'rubygems deb'
+    'rubygems deb',
     'curl',                     # defined elsewhere
     'build-essential',          # defined elsewhere
     #'sys libs for jruby',       # not needed unless using jruby
