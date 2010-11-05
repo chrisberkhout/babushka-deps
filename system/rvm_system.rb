@@ -7,8 +7,6 @@ dep 'rvm system' do
   # System-wide rvm requires users to be in the rvm group to have write access.
   # This dep adds root and any admins to the rvm group. Also see the dep 'member of rvm'.
   # 
-  # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
-  #
   requires \
     'rubygems deb',
     'curl',                     # defined elsewhere
@@ -52,8 +50,6 @@ dep 'rvm system' do
     # and suck relevant environment variables up into the current environment. e.g:
     ruby_vars = ['PATH','GEM_HOME','GEM_PATH','BUNDLE_PATH','MY_RUBY_HOME','IRBRC','RUBYOPT','gemset','MANPATH']
     suck_env(`sudo bash -lc "rvm use system; echo; env"`, ruby_vars)
-
-    # NEVER SET A SYSTEM-WIDE DEFAULT RUBY unless you want to clobber any existing source install at /usr/local/bin/ruby.
   }
 end
 
