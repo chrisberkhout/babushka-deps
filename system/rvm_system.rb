@@ -8,7 +8,7 @@ dep 'rvm system' do
   # This dep adds root and any admins to the rvm group. Also see the dep 'member of rvm'.
   # 
   requires \
-    'rubygems deb',
+    'apt rubygems',
     'curl',                     # defined elsewhere
     'build-essential',          # defined elsewhere
     #'sys libs for jruby',       # not needed unless using jruby
@@ -18,25 +18,23 @@ dep 'rvm system' do
 
   met? { 
     # This works if system-wide rvm has been installed, even if the shell hasn't been closed and reopened.
-    File.exist?(File.expand_path("/usr/local/lib/rvm")) && 
     `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
-    `bash -lc "type rvm | head -n1" 2>&1`[/^rvm is a function/] &&
     `bash -lc "env | grep ^rvm_path="`[/^rvm_path=\/usr\/local\/rvm$/] &&
-    `bash -lc "which rvm"`[/^\/usr\/local\/bin\/rvm$/]
+    `bash -lc "type rvm | head -n1" 2>&1`[/^rvm is a function/]
   }
   meet {
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
 
     shell "curl -L http://bit.ly/rvm-install-system-wide > /tmp/rvm-install-system-wide"
-    sudo "bash /tmp/rvm-install-system-wide"
-    sudo "rm /tmp/rvm-install-system-wide"
+    sudo  "bash /tmp/rvm-install-system-wide"
+    shell "rm /tmp/rvm-install-system-wide"
 
     line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /usr/local/lib/rvm ]] ; then source /usr/local/lib/rvm ; fi\n"
     # For login shells:
     if File.exist?("/etc/profile.d") then 
       sudo "echo \"#{line_to_add}\" > /etc/profile.d/rvm-system-wide.sh"
-      sudo "chmod 0755 /etc/profile.d/rvm-system-wide.sh"
+      sudo "chmod +x /etc/profile.d/rvm-system-wide.sh"
     elsif File.exist?("/etc/profile") then 
       sudo "echo \"#{line_to_add}\" >> /etc/profile" 
     end
@@ -46,14 +44,17 @@ dep 'rvm system' do
     sudo "usermod -aG rvm root" # Add root to the rvm group.
     members_of('admin').each { |u| sudo "usermod -aG rvm #{u}" } # Add admins to the rvm group
 
-    # To use rvm without closing and restarting the shell, run the command in a bash -lc subshell
-    # and suck relevant environment variables up into the current environment. e.g:
-    ruby_vars = ['PATH','GEM_HOME','GEM_PATH','BUNDLE_PATH','MY_RUBY_HOME','IRBRC','RUBYOPT','gemset','MANPATH', 'rvm_self_contained', 'rvm_path', 'rvm_prefix', 'rvm_version', 'rvm_ruby_string', 'RUBY_VERSION']
-    suck_env(`sudo bash -lc "rvm use system; echo; env"`, ruby_vars)
+    # To use rvm without closing and restarting the shell, run the command in a bash -lc subshell:
+    #   `bash -lc "rvm install ree-1.8.7-2010.02"`
+    #   `bash -lc "rvm use ree-1.8.7-2010.02 --default"`
+
+    # does a ruby install need an sg?
+
+    # mention gem installation
   }
 end
 
-dep 'rubygems deb' do
+dep 'apt rubygems' do
   met? { `dpkg -s rubygems 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install rubygems" }
 end
