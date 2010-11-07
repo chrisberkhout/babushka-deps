@@ -10,5 +10,6 @@ dep 'system base' do
     'mdns',
     'ssh server',
     'known hosts',
-    'handy sys packages'
+    'handy sys packages',
+    'rvm system ree default'
 end
