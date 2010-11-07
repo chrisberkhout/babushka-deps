@@ -8,7 +8,7 @@ end
 
 dep 'account with password' do
   met? { grep(/^#{var(:username)}:/, '/etc/passwd') }
-  meet { `sudo adduser #{var(:username)} --gecos ""`[/password updated successfully/] }
+  meet { `sudo adduser #{var(:username)} --gecos ""` } # got a problem here (for case of non-matching)!!!
 end
 
 dep 'member of admin' do
