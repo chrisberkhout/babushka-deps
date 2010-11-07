@@ -1,3 +1,9 @@
 # Notes
 
-- I am using mostly standard dep definitions (not the other special dep types) because I want full awareness and control of what is being run. I also want the dep definition to easily read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to add in custom or build-in meta deps and other babushka functionality later where beneficial.
+- To get up and running:
+  - As a sudoer, run:
+      bash -c "`wget -O - babushka.me/up`"
+      babushka sources -a tt git://github.com/chrisberkhout/tt-deps.git
+      babushka tt:system
+
+- I am using mostly standard dep definitions (not the other special dep types) because I want full awareness and control of what is being run. I also want the dep definition to easily read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to add in custom or build-in dep templates and other babushka functionality later where beneficial.
