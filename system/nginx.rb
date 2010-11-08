@@ -49,15 +49,9 @@ dep 'passenger for nginx' do
   # http://www.modrails.com/documentation/Users%20guide%20Nginx.html
   # passenger needs extra love to use an RVM ruby: http://rvm.beginrescueend.com/integration/passenger/
   # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
-  requires \
-    'build-essential',
-    'rvm system ree default'
-  met? { File.exist?(`bash -lc "passenger-config --root"`.chomp + '/ext/nginx/HelperServer') }
-  meet {
-    shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install passenger --version 3.0.0\""'
-    Dir.chdir( `bash -lc "passenger-config --root"`.chomp + '/ext/nginx' )
-    sudo 'bash -lc "rake nginx"'    # doing this now means nginx ./configure can be done without sudo
-  }
+  requires 'rvm system ree default'
+  met? { `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] }
+  meet { shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install passenger --version 3.0.0\""' }
 end
 
 dep 'sys libs for nginx' do
