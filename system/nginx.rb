@@ -35,7 +35,7 @@ dep 'nginx 0.8.53' do
     config_cmd = <<-END_OF_STRING
       ./configure \
           --with-pcre \
-          --with-http_ssl_module 
+          --with-http_ssl_module \
           --add-module=#{`bash -lc "passenger-config --root"`.chomp}/ext/nginx
     END_OF_STRING
     shell config_cmd
