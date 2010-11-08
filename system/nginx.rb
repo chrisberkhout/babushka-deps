@@ -45,16 +45,26 @@ dep 'nginx 0.8.53' do
 end
 
 dep 'passenger for nginx' do
-  # Passenger previously required a `sudo rake nginx`, but now you just install the gem and point nginx to it. See:
-  #     http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_installing_phusion_passenger_for_nginx_manually
+  # http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_installing_phusion_passenger_for_nginx_manually
   # To have a given rails app use a different gemset (but same ruby: ree), see: 
   #     http://rvm.beginrescueend.com/integration/passenger/
   # Multiple rubies via standalone passenger is probably best done as part of the setup of any accounts that need it. See also:
   #     http://blog.phusion.nl/2010/09/21/phusion-passenger-running-multiple-ruby-versions/
   #     http://www.modrails.com/documentation/Users%20guide%20Standalone.html
-  requires 'rvm system ree default'
+  requires \
+    'rvm system ree default',
+    'libcurl4-openssl-dev'
   met? { `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] }
-  meet { shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install passenger --version 3.0.0\""' }
+  meet { 
+    shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install passenger --version 3.0.0\""' 
+    Dir.chdir( `bash -lc "passenger-config --root"`.chomp + '/ext/nginx' )
+    sudo 'bash -lc "sg rvm -c \"rake nginx\""' # doing this now means nginx ./configure won't try it and create rvm complications
+  }
+end
+
+dep 'libcurl4-openssl-dev' do
+  met? { `dpkg -s libcurl4-openssl-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libcurl4-openssl-dev" }
 end
 
 dep 'sys libs for nginx' do
