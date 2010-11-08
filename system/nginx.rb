@@ -54,7 +54,10 @@ dep 'passenger for nginx' do
   requires \
     'rvm system ree default',
     'libcurl4-openssl-dev'
-  met? { `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] }
+  met? { 
+    `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] &&
+    File.exist?(`bash -lc "passenger-config --root"`.chomp + '/agents/nginx/PassengerHelperAgent')
+  }
   meet { 
     shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install passenger --version 3.0.0\""' 
     Dir.chdir( `bash -lc "passenger-config --root"`.chomp + '/ext/nginx' )
