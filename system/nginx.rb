@@ -53,6 +53,8 @@ dep 'passenger for nginx' do
   #     http://www.modrails.com/documentation/Users%20guide%20Standalone.html
   requires \
     'rvm system ree default',
+    'build-essential',
+    'curl',
     'libcurl4-openssl-dev'
   met? { 
     `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] &&
