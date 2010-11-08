@@ -11,7 +11,7 @@ http {
     sendfile            on;
     keepalive_timeout   5;
     gzip                on;
-    passenger_root      <%= `passenger-config --root`.chomp %>;
+    passenger_root      <%= `bash -lc "passenger-config --root"`.chomp %>;
 
     include             /usr/local/nginx/sites-enabled/*;
 }
