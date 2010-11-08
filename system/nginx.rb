@@ -8,37 +8,36 @@ end
 
 
 dep 'nginx built and installed' do
-  requires 'nginx 0.7.65'
+  requires 'nginx 0.8.53'
 end
 
-dep 'nginx 0.7.65' do
+dep 'nginx 0.8.53' do
   # http://wiki.nginx.org/NginxInstall
   # http://wiki.nginx.org/NginxInstallOptions
   # http://www.cyberciti.biz/faq/debian-ubuntu-linux-install-libpcre3-dev/
   # http://freelancing-gods.com/posts/script_nginx
   requires \
-    'passenger for nginx',
+    # 'passenger for nginx',
     'sys libs for nginx',
     'build-essential'
   met? {
-    `nginx -V 2>&1`.include?('nginx version: nginx/0.7.65') &&
+    `nginx -V 2>&1`.include?('nginx version: nginx/0.8.53') &&
     `nginx -V 2>&1`.include?('--with-pcre') &&
-    `nginx -V 2>&1`.include?('--with-http_ssl_module') &&
-    `nginx -V 2>&1`.include?('--with-pcre') &&
-    nil | `nginx -V 2>&1`[/--add-module=.*passenger-.*/]
+    `nginx -V 2>&1`.include?('--with-http_ssl_module') #&&
+    # nil | `nginx -V 2>&1`[/--add-module=.*passenger-.*/]
   }
   meet {
     Dir.chdir '/usr/local/src'
-    shell 'wget http://sysoev.ru/nginx/nginx-0.7.65.tar.gz'
-    shell 'tar -xzf nginx-0.7.65.tar.gz'
-    shell 'rm nginx-0.7.65.tar.gz'
-    Dir.chdir 'nginx-0.7.65'
+    shell 'wget http://nginx.org/download/nginx-0.8.53.tar.gz'
+    shell 'tar -xzf nginx-0.8.53.tar.gz'
+    shell 'rm nginx-0.8.53.tar.gz'
+    Dir.chdir 'nginx-0.8.53'
     config_cmd = <<-END_OF_STRING
       ./configure \
           --with-pcre \
-          --with-http_ssl_module \
-          --add-module=#{`passenger-config --root`.chomp}/ext/nginx
-    END_OF_STRING
+          --with-http_ssl_module 
+          END_OF_STRING
+          # --add-module=#{`passenger-config --root`.chomp}/ext/nginx
     shell config_cmd
     shell 'make'
     sudo  'make install'
@@ -51,13 +50,13 @@ dep 'passenger for nginx' do
   # passenger needs extra love to use an RVM ruby: http://rvm.beginrescueend.com/integration/passenger/
   # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
   requires \
-    'rubygems installed somehow',
-    'gem rake',
+    'rvm system ree default',
     'build-essential'
   met? { File.exist?(`passenger-config --root 2>&1`.chomp + '/ext/nginx/HelperServer') }
   meet {
-    sudo "gem install passenger"
-    Dir.chdir( `passenger-config --root`.chomp + '/ext/nginx' )
+    shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install passenger --version 3.0.0\""'
+    Dir.chdir( `bash -lc "sg rvm -c \"passenger-config --root\""`.chomp + '/ext/nginx' )
+    # ???
     sudo "rake nginx"    # doing this now means nginx ./configure can be done without sudo
   }
 end
