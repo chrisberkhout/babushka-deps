@@ -54,7 +54,7 @@ dep 'passenger for nginx' do
   #     http://www.modrails.com/documentation/Users%20guide%20Standalone.html
   requires 'rvm system ree default'
   met? { `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] }
-  meet { shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install passenger --version 3.0.0\""' }
+  meet { shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install passenger --version 3.0.0\""' }
 end
 
 dep 'sys libs for nginx' do

@@ -15,7 +15,7 @@ dep 'rvm system' do
   #
   # Gems will usually be installed into custom gemsets later, while setting up each account/project,
   # however, they can be installed without closing and restarting the shell, as follows:
-  #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install rake\""`    # install into default gemset of given ruby
+  #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install rake\""`    # install into default gemset of given ruby
   #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02 gemset create gemsetname\""`    # create new gemset for a given ruby
   #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@gemsetname gem install rake\""` # install into specific gemset of given ruby
   # Other variations may not work as expected and should be carefully tested.
