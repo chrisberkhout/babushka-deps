@@ -28,9 +28,9 @@ dep 'nginx 0.8.53' do
   }
   meet {
     Dir.chdir '/usr/local/src'
-    shell 'wget http://nginx.org/download/nginx-0.8.53.tar.gz'
-    shell 'tar -xzf nginx-0.8.53.tar.gz'
-    shell 'rm nginx-0.8.53.tar.gz'
+    sudo 'wget http://nginx.org/download/nginx-0.8.53.tar.gz'
+    sudo 'tar -xzf nginx-0.8.53.tar.gz'
+    sudo 'rm nginx-0.8.53.tar.gz'
     Dir.chdir 'nginx-0.8.53'
     config_cmd = <<-END_OF_STRING
       ./configure \
