@@ -12,6 +12,7 @@ http {
     keepalive_timeout   5;
     gzip                on;
     passenger_root      <%= `bash -lc "passenger-config --root"`.chomp %>;
+    passenger_ruby      /usr/local/rvm/wrappers/ree-1.8.7-2010.02/ruby;
 
     include             /usr/local/nginx/sites-enabled/*;
 }

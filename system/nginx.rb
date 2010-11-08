@@ -14,15 +14,14 @@ end
 dep 'nginx 0.8.53' do
   # http://wiki.nginx.org/NginxInstall
   # http://wiki.nginx.org/NginxInstallOptions
-  # http://www.cyberciti.biz/faq/debian-ubuntu-linux-install-libpcre3-dev/
-  # http://freelancing-gods.com/posts/script_nginx
+  # http://freelancing-gods.com/posts/script_nginx (Beware, it's getting a bit old)
   requires \
     'build-essential',
     'sys libs for nginx',
     'passenger for nginx'
   met? {
     `nginx -V 2>&1`.include?('nginx version: nginx/0.8.53') &&
-    `nginx -V 2>&1`.include?('--with-pcre') &&
+    `nginx -V 2>&1`.include?('--with-pcre') &&                  # required for URL rewriting
     `nginx -V 2>&1`.include?('--with-http_ssl_module') &&
     `nginx -V 2>&1`[/--add-module=.*passenger-.*/]
   }
@@ -32,12 +31,12 @@ dep 'nginx 0.8.53' do
     sudo 'tar -xzf nginx-0.8.53.tar.gz'
     sudo 'rm nginx-0.8.53.tar.gz'
     Dir.chdir 'nginx-0.8.53'
-    config_cmd = <<-END_OF_STRING
+    config_cmd = <<-END_OF_CMD
       ./configure \
           --with-pcre \
           --with-http_ssl_module \
           --add-module=#{`bash -lc "passenger-config --root"`.chomp}/ext/nginx
-    END_OF_STRING
+    END_OF_CMD
     shell config_cmd
     shell 'make'
     sudo  'make install'
@@ -46,9 +45,13 @@ dep 'nginx 0.8.53' do
 end
 
 dep 'passenger for nginx' do
-  # http://www.modrails.com/documentation/Users%20guide%20Nginx.html
-  # passenger needs extra love to use an RVM ruby: http://rvm.beginrescueend.com/integration/passenger/
-  # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
+  # Passenger previously required a `sudo rake nginx`, but now you just install the gem and point nginx to it. See:
+  #     http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_installing_phusion_passenger_for_nginx_manually
+  # To have a given rails app use a different gemset (but same ruby: ree), see: 
+  #     http://rvm.beginrescueend.com/integration/passenger/
+  # Multiple rubies via standalone passenger is probably best done as part of the setup of any accounts that need it. See also:
+  #     http://blog.phusion.nl/2010/09/21/phusion-passenger-running-multiple-ruby-versions/
+  #     http://www.modrails.com/documentation/Users%20guide%20Standalone.html
   requires 'rvm system ree default'
   met? { `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] }
   meet { shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install passenger --version 3.0.0\""' }
@@ -90,8 +93,10 @@ end
 
 
 dep 'nginx sites directories and sys config' do
-  # http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-nginx-from-source-layout
+  # Note that this nginx.conf setup assumes a system-wide rvm install of ree is in the usual place.
+  # Regarding sites directories, see: http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-nginx-from-source-layout
   requires \
+    'rvm system ree default',
     'nginx built and installed'
   met? {
     File.exist?('/usr/local/nginx/sites-available') &&
@@ -114,3 +119,4 @@ dep 'nginx running' do
   met? { File.exist?('/usr/local/nginx/logs/nginx.pid') }
   meet { sudo "/etc/init.d/nginx start" }
 end
+
