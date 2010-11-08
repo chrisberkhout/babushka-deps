@@ -17,14 +17,14 @@ dep 'nginx 0.8.53' do
   # http://www.cyberciti.biz/faq/debian-ubuntu-linux-install-libpcre3-dev/
   # http://freelancing-gods.com/posts/script_nginx
   requires \
+    'build-essential',
     'sys libs for nginx',
-    'build-essential'
-    # 'passenger for nginx',
+    'passenger for nginx'
   met? {
     `nginx -V 2>&1`.include?('nginx version: nginx/0.8.53') &&
     `nginx -V 2>&1`.include?('--with-pcre') &&
-    `nginx -V 2>&1`.include?('--with-http_ssl_module') #&&
-    # nil | `nginx -V 2>&1`[/--add-module=.*passenger-.*/]
+    `nginx -V 2>&1`.include?('--with-http_ssl_module') &&
+    `nginx -V 2>&1`[/--add-module=.*passenger-.*/]
   }
   meet {
     Dir.chdir '/usr/local/src'
@@ -36,8 +36,8 @@ dep 'nginx 0.8.53' do
       ./configure \
           --with-pcre \
           --with-http_ssl_module 
-          END_OF_STRING
-          # --add-module=#{`passenger-config --root`.chomp}/ext/nginx
+          --add-module=#{`bash -lc "passenger-config --root"`.chomp}/ext/nginx
+    END_OF_STRING
     shell config_cmd
     shell 'make'
     sudo  'make install'
@@ -50,14 +50,13 @@ dep 'passenger for nginx' do
   # passenger needs extra love to use an RVM ruby: http://rvm.beginrescueend.com/integration/passenger/
   # passenger v3 will support multiple rubies, but currently it only supports one: http://bit.ly/8ZMLzg
   requires \
-    'rvm system ree default',
-    'build-essential'
-  met? { File.exist?(`passenger-config --root 2>&1`.chomp + '/ext/nginx/HelperServer') }
+    'build-essential',
+    'rvm system ree default'
+  met? { File.exist?(`bash -lc "passenger-config --root"`.chomp + '/ext/nginx/HelperServer') }
   meet {
     shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@defualt gem install passenger --version 3.0.0\""'
-    Dir.chdir( `bash -lc "sg rvm -c \"passenger-config --root\""`.chomp + '/ext/nginx' )
-    # ???
-    sudo "rake nginx"    # doing this now means nginx ./configure can be done without sudo
+    Dir.chdir( `bash -lc "passenger-config --root"`.chomp + '/ext/nginx' )
+    sudo 'bash -lc "rake nginx"'    # doing this now means nginx ./configure can be done without sudo
   }
 end
 
