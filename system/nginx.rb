@@ -17,9 +17,9 @@ dep 'nginx 0.8.53' do
   # http://www.cyberciti.biz/faq/debian-ubuntu-linux-install-libpcre3-dev/
   # http://freelancing-gods.com/posts/script_nginx
   requires \
-    # 'passenger for nginx',
     'sys libs for nginx',
     'build-essential'
+    # 'passenger for nginx',
   met? {
     `nginx -V 2>&1`.include?('nginx version: nginx/0.8.53') &&
     `nginx -V 2>&1`.include?('--with-pcre') &&
