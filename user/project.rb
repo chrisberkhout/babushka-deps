@@ -8,27 +8,27 @@ end
 
 dep 'proj directories set up' do
   requires \
-    '~/current',
-    '~/shared',
-    '~/shared/assets',
-    '~/shared/log'
+    '~ current',
+    '~ shared',
+    '~ shared assets',
+    '~ shared log'
 end
 
-dep '~/current' do
+dep '~ current' do
   met? { File.directory? ENV['HOME']+'/current' }
   meet { Dir.mkdir ENV['HOME']+'/current' }  
 end
-dep '~/shared' do
+dep '~ shared' do
   met? { File.directory? ENV['HOME']+'/shared' }
   meet { Dir.mkdir ENV['HOME']+'/shared' }  
 end
-dep '~/shared/assets' do
-  requires 'shared'
+dep '~ shared assets' do
+  requires '~ shared'
   met? { File.directory? ENV['HOME']+'/shared/assets' }
   meet { Dir.mkdir ENV['HOME']+'/shared/assets' }  
 end
-dep '~/shared/log' do
-  requires 'shared'
+dep '~ shared log' do
+  requires '~ shared'
   met? { File.directory? ENV['HOME']+'/shared/log' }
   meet { Dir.mkdir ENV['HOME']+'/shared/log' }  
 end
