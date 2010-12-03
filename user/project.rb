@@ -44,7 +44,7 @@ end
 
 
 dep 'proj bundle install if gemfile exists' do
-  requires 
+  requires \
     'proj clone from git',
     'bundler gem'
   met? { 

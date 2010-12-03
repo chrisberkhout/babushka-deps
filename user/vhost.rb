@@ -1,5 +1,5 @@
 dep 'vhost' do
-    requires \
-      'account',
-      
+    requires 'account'
+
+
 end
