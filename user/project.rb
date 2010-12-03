@@ -52,7 +52,7 @@ dep 'proj bundle install if gemfile exists' do
     shell('bash -lc "bundle check"', :dir => "#{ENV['HOME']}/current")
   }
   meet { 
-    shell('bash -lc "bundle install --deployment"', :dir => "#{ENV['HOME']}/current")
+    shell('bash -lc "bundle install --deployment --without development test"', :dir => "#{ENV['HOME']}/current")
   }
 end
 

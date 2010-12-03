@@ -14,15 +14,15 @@
 
 # ToDo
 
+- make scaffapp a rails 3 app
+- create account scaffapp
+- have cb:project check for gemfile and do bundle install --deployment if necessary (according to bundle check)
+  bundle install --deployment --without development test
+- cb:project for scaffapp
+
+^^ done
+
 - nginx vhosts to get scaffapp to run
-    - make scaffapp a rails 3 app
-    - create account scaffapp
-
-    - git checkout branch/tag
-    - have cb:project check for gemfile and do bundle install --deployment if necessary (according to bundle check)
-      bundle install --deployment --without development test
-    - cb:project for scaffapp
-
     - manually create vhost file, with host as ubuntu.local, with logs locations etc correct.
     - formalise vhost
 
@@ -31,6 +31,7 @@
     - dns api.
 
 - git deploy keys
+- git checkout branch/tag
 - postgres as db for scaffapp
 
 - php via nginx
