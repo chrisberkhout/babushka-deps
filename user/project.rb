@@ -58,7 +58,7 @@ end
 
 dep 'bundler gem' do
   requires 'rvm system ree default'
-  met? { `bash -lc "gem list bundler" 2>&1`[/bundler (\d+\.\d+\.\d+)/] }
+  met? { `bash -lc "gem list bundler" 2>&1`[/bundler \(\d+\.\d+\.\d+\)/] }
   meet { shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install bundler\""' }
 end
 
