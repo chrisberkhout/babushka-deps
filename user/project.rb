@@ -49,7 +49,7 @@ dep 'proj bundle install if gemfile exists' do
     'bundler gem'
   met? { 
     !File.exist?("#{ENV['HOME']}/current/Gemfile") ||
-    shell('bash -lc "bundle check"', :dir => "#{ENV['HOME']}/current")[/The Gemfile's dependencies are satisfied/]
+    shell('bash -lc "bundle check"', :dir => "#{ENV['HOME']}/current")
   }
   meet { 
     shell('bash -lc "bundle install --deployment"', :dir => "#{ENV['HOME']}/current")
