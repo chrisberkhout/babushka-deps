@@ -1,0 +1,12 @@
+########## wildcard
+
+server {          
+    listen        80;
+    server_name   *.hostname.*;
+    access_log    /home/scaffapp/shared/log/access.log;
+    error_log     /home/scaffapp/shared/log/error.log;
+    location / {  
+        root          /home/scaffapp/current/public/;
+        index         index.html;
+    }
+}

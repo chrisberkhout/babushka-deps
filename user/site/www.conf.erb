@@ -1,0 +1,18 @@
+########## www
+
+server {
+    listen        80;
+    server_name   hostname.*;
+    rewrite       ^/(.*) http://www.$host/$1 permanent;
+}
+           
+server {          
+    listen        80;
+    server_name   www.hostname.*;
+    access_log    /home/scaffapp/shared/log/access.log;
+    error_log     /home/scaffapp/shared/log/error.log;
+    location / {  
+        root          /home/scaffapp/current/public/;
+        index         index.html;
+    }
+}

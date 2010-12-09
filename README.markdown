@@ -14,30 +14,41 @@
 
 # ToDo
 
-- make scaffapp a rails 3 app
-- create account scaffapp
-- have cb:project check for gemfile and do bundle install --deployment if necessary (according to bundle check)
-  bundle install --deployment --without development test
-- cb:project for scaffapp
-
-^^ done
-
 - nginx vhosts to get scaffapp to run
-    - manually create vhost file, with host as ubuntu.local, with logs locations etc correct.
     - formalise vhost
+      - ask user "which vhost to use?" list includes from repo, and vhost-* from babushka-deps
+    
+    - initial deploy vs redeploy
+      http://efreedom.com/Question/1-3258243/Git-Check-Pull-Needed
 
-    - think about adding .local domain names (ghost?, something else?)
-    - think about wildcard domains.
-    - dns api.
+    - check rails can actually run (extend scaffapp a bit).
+    - php via nginx
+
+    - automate extra/wild global dns records.
+      - https://github.com/rick/linode
+        http://www.linode.com/api/autodoc.cfm
+        
+- deploy flow: site should get repo vhost from next not current
 
 - git deploy keys
 - git checkout branch/tag
 - postgres as db for scaffapp
 
-- php via nginx
+- do i need to change the user/group of the repo dir to www-data?
 
 
 # Temp notes
+
+- publish extra cname records via avahi mdns:
+  http://airtonix.net/wiki/linux/avahi-aliases
+  http://stackoverflow.com/questions/775233/how-to-route-all-subdomains-to-a-single-host-using-mdns
+  http://serverfault.com/questions/44618/is-a-wildcard-cname-dns-record-valid
+- `hostname -I` gives list of non-loopback non-ipv6-link-local ip addresses.
+
+cd /usr/local/nginx/sites-available
+sudo (cat > ubuntu.local)
+sudo ln -sf ../sites-available/ubuntu.local
+sudo /etc/init.d/nginx restart
 
 - nothing in proj deps for now.
 - user: scaffapp

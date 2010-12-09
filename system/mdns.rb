@@ -8,12 +8,17 @@ end
 dep 'avahi-daemon' do
   requires \
     'avahi-daemon installed',
+    'avahi-utils installed',
     'avahi-daemon configured'
 end
 
 dep 'avahi-daemon installed' do
   met? { `dpkg -s avahi-daemon 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install avahi-daemon" }
+end
+dep 'avahi-utils installed' do
+  met? { `dpkg -s avahi-utils 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install avahi-utils" }
 end
 
 dep 'avahi-daemon configured' do
