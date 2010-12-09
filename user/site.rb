@@ -21,7 +21,7 @@ dep 'site' do
   }
 
   met? {
-    !changed_from_erb?(var(:site_config_destination), var(:site_config)) &&
+    !changed_from_erb?(var(:site_config_destination), var(:site_config_source)) &&
     File.symlink?(var(:site_enabled_link))
   }
 
