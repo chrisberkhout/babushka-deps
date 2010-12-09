@@ -14,11 +14,6 @@
 
 # ToDo
 
-- php via nginx
-  -> find out why
-    ERB.new(IO.read(erb_path_for(file))).result(binding).gsub(/\n/, "\n#{sprintf("%#{opts[:indent]}s", "")}").strip
-    doesn't work!
-    
 - postgres as db for scaffapp
 
 - deploy flow: site should get repo vhost from next not current
