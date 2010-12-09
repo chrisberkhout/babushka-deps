@@ -7,9 +7,7 @@ end
 
 def render_erb_inline(file, opts = {})
   if File.exist?(erb_path_for(file))
-    lines = ERB.new(IO.read(erb_path_for(file))).result(binding).split("\n")
-    [1..(lines.length-1)].each { |i| lines[i] = sprintf("%#{opts[:indent]}s", "") + lines[i].to_s } if lines.length > 1
-    lines.join("\n")
+    ERB.new(IO.read(erb_path_for(file))).result(binding).gsub(/\n/, "\n#{sprintf("%#{opts[:indent]}s", "")}").strip
   else
     raise "Can't do an inline render of '#{file}' because it doesn't exist!"
   end
