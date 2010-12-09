@@ -2,7 +2,7 @@
 
 server {
     listen        80;
-    server_name   www.hostname.*;
+    server_name   www.<%= var :site_hostname %>.*;
     if ($host ~* www\.(.*)) { 
         set           $host_without_www $1; 
         rewrite       ^/(.*) http://$host_without_www/$1 permanent;
@@ -11,11 +11,11 @@ server {
            
 server {          
     listen        80;
-    server_name   hostname.*;
-    access_log    /home/scaffapp/shared/log/access.log;
-    error_log     /home/scaffapp/shared/log/error.log;
+    server_name   <%= var :site_hostname %>.*;
+    access_log    <%= ENV['HOME'] %>/shared/log/access.log;
+    error_log     <%= ENV['HOME'] %>/shared/log/error.log;
     location / {  
-        root          /home/scaffapp/current/public/;
+        root          <%= ENV['HOME'] %>/current/public/;
         index         index.html;
     }
 }
