@@ -12,7 +12,7 @@ dep 'site' do
         :default => "clean"
       set :site_config_source, "site/#{var :site_config_selection}.conf.erb"
       define_var :site_config_locations,
-        :message => "While location statements do you want in the nginx config file?",
+        :message => "Which location statements do you want in the nginx config file?",
         :choices => ["passenger", "php"],
         :default => "passenger"
     end

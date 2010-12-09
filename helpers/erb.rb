@@ -6,6 +6,6 @@ def changed_from_erb?(destination_file, source_erb)
 end
 
 def render_erb_inline(file)
-  File.exist?(file) &&
+  File.exist?(erb_path_for(file)) &&
   ERB.new(IO.read(erb_path_for(file))).result(binding)
 end
