@@ -2,7 +2,7 @@ dep 'php' do
   # http://library.linode.com/web-servers/nginx/php-fastcgi/ubuntu-10.04-lucid
   requires \
     'nginx',
-    'php-cli',
+    'php5-cli',
     'php-fastcgi'
 end
 
