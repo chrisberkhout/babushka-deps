@@ -23,7 +23,7 @@ dep 'php-fastcgi wrapper' do
   requires \
     'php5-cgi',
     'spawn-fcgi'
-  met? { !erb_changed?("/usr/bin/php-fastcgi", "php/usr_bin_php-fastcgi.erb") && File.executable?("/usr/bin/php-fastcgi") }
+  met? { !changed_from_erb?("/usr/bin/php-fastcgi", "php/usr_bin_php-fastcgi.erb") && File.executable?("/usr/bin/php-fastcgi") }
   meet { render_erb "php/usr_bin_php-fastcgi.erb", :to => "/usr/bin/php-fastcgi", :perms => '755', :sudo => true }
 end
 
@@ -40,7 +40,7 @@ end
 dep 'php-fastcgi init.d' do
   requires 'php-fastcgi wrapper'
   met? { 
-    !erb_changed?("/etc/init.d/php-fastcgi", "php/etc_init.d_php-fastcgi.erb") &&
+    !changed_from_erb?("/etc/init.d/php-fastcgi", "php/etc_init.d_php-fastcgi.erb") &&
     `/etc/init.d/php-fastcgi status`[/is running/]
   }
   meet { 
