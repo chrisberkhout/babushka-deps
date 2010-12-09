@@ -7,12 +7,14 @@ server {
 }
            
 server {          
-    listen        80;
-    server_name   www.<%= var :site_hostname %>.*;
-    access_log    <%= ENV['HOME'] %>/shared/log/access.log;
-    error_log     <%= ENV['HOME'] %>/shared/log/error.log;
+    listen            80;
+    server_name       www.<%= var :site_hostname %>.*;
+    passenger_enabled on;
+    rails_env         production;
+    access_log        <%= ENV['HOME'] %>/shared/log/access.log;
+    error_log         <%= ENV['HOME'] %>/shared/log/error.log;
     location / {  
-        root          <%= ENV['HOME'] %>/current/public/;
-        index         index.html;
+        root              <%= ENV['HOME'] %>/current/public/;
+        index             index.html;
     }
 }

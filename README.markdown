@@ -15,13 +15,12 @@
 # ToDo
 
 - nginx vhosts to get scaffapp to run
-    - formalise vhost
-      - ask user "which vhost to use?" list includes from repo, and vhost-* from babushka-deps
+    
+    - check rails can actually run (extend scaffapp a bit).
     
     - initial deploy vs redeploy
       http://efreedom.com/Question/1-3258243/Git-Check-Pull-Needed
 
-    - check rails can actually run (extend scaffapp a bit).
     - php via nginx
 
     - automate extra/wild global dns records.
