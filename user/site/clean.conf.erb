@@ -17,7 +17,7 @@ server {
     error_log         <%= ENV['HOME'] %>/shared/log/error.log;
     
     location / {
-        root              <%= ENV['HOME'] %>/current/public/;
+        root              <%= ENV['HOME'] %>/current/public;
         index             index.html index.htm index.php;
         passenger_enabled on;
         rails_env         production;
