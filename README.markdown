@@ -26,17 +26,18 @@
 - automate extra/wild global dns records.
   - https://github.com/rick/linode
     http://www.linode.com/api/autodoc.cfm
+  - publish extra cname records via avahi mdns:
+    http://airtonix.net/wiki/linux/avahi-aliases
+    http://stackoverflow.com/questions/775233/how-to-route-all-subdomains-to-a-single-host-using-mdns
+    http://serverfault.com/questions/44618/is-a-wildcard-cname-dns-record-valid
         
 ? do i need to change the user/group of the repo dir to www-data?
 ? read http://benhoskin.gs/2010/08/01/design-and-dsl-changes-in-babushka-v0.6/
 
 # Temp notes
 
-- publish extra cname records via avahi mdns:
-  http://airtonix.net/wiki/linux/avahi-aliases
-  http://stackoverflow.com/questions/775233/how-to-route-all-subdomains-to-a-single-host-using-mdns
-  http://serverfault.com/questions/44618/is-a-wildcard-cname-dns-record-valid
 - `hostname -I` gives list of non-loopback non-ipv6-link-local ip addresses.
+- babushka runs with --defaults mean that previous vars are reused without prompting.
 
 cd /usr/local/nginx/sites-available
 sudo (cat > ubuntu.local)
@@ -47,4 +48,3 @@ sudo /etc/init.d/nginx restart
 - user: scaffapp
   pass: password
 
-- babushka runs with --defaults mean that previous vars are reused without prompting.

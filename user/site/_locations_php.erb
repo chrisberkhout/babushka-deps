@@ -3,6 +3,7 @@ location / {
     index             index.html index.htm index.php;
 }
 
+# The following location adds php support even if using passenger, however, the index files won't work if passenger is enabled.
 location ~ \.php$ {
     include           /usr/local/nginx/conf/fastcgi_params;
     fastcgi_pass      127.0.0.1:9000;
