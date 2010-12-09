@@ -41,7 +41,7 @@ dep 'php-fastcgi init.d' do
   requires 'php-fastcgi wrapper'
   met? { 
     !changed_from_erb?("/etc/init.d/php-fastcgi", "php/etc_init.d_php-fastcgi.erb") &&
-    `/etc/init.d/php-fastcgi status`[/is running/]
+    `ps -aux`[/\/usr\/bin\/php5\-cgi/]
   }
   meet { 
     render_erb "php/etc_init.d_php-fastcgi.erb", :to => "/etc/init.d/php-fastcgi", :perms => '755', :sudo => true 
