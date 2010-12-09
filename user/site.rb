@@ -8,7 +8,7 @@ dep 'site' do
     repo_confs = Dir.glob("#{ENV['HOME']}/current/config/deploy/nginx-site{,-#{`hostname`.chomp}}.conf{,.erb}").sort
     define_var :site_config,
       :message => "Which nginx config file should be used for this site?",
-      :choices => repo_confs + dep_confs
+      :choices => repo_confs + dep_confs,
       :default => repo_confs.first || dep_confs.first
     
     define_var :site_hostname,
