@@ -1,4 +1,4 @@
-########## clean
+########## clean site config from deps
 
 server {
     listen        80;
@@ -16,6 +16,14 @@ server {
     rails_env         production;
     access_log        <%= ENV['HOME'] %>/shared/log/access.log;
     error_log         <%= ENV['HOME'] %>/shared/log/error.log;
+    
     root              <%= ENV['HOME'] %>/current/public/;
-    index             index.html;
+    index             index.html index.htm index.php;
+    
+    location ~ \.php$ {
+        include           /etc/nginx/fastcgi_params;
+        fastcgi_pass      127.0.0.1:9000;
+        fastcgi_index     index.php;
+        fastcgi_param     SCRIPT_FILENAME   <%= ENV['HOME'] %>/current/public$fastcgi_script_name;
+    }
 }

@@ -14,27 +14,23 @@
 
 # ToDo
 
-- nginx vhosts to get scaffapp to run
+- php via nginx
     
-    - check rails can actually run (extend scaffapp a bit).
-    
-    - initial deploy vs redeploy
-      http://efreedom.com/Question/1-3258243/Git-Check-Pull-Needed
-
-    - php via nginx
-
-    - automate extra/wild global dns records.
-      - https://github.com/rick/linode
-        http://www.linode.com/api/autodoc.cfm
-        
-- deploy flow: site should get repo vhost from next not current
-
-- git deploy keys
-- git checkout branch/tag
 - postgres as db for scaffapp
 
-- do i need to change the user/group of the repo dir to www-data?
+- deploy flow: site should get repo vhost from next not current
+  - initial deploy vs redeploy
+    http://efreedom.com/Question/1-3258243/Git-Check-Pull-Needed
+  - git deploy keys
+  - git checkout branch/tag
+  - RAILS_ENV=production rake db:create db:migrate
 
+- automate extra/wild global dns records.
+  - https://github.com/rick/linode
+    http://www.linode.com/api/autodoc.cfm
+        
+? do i need to change the user/group of the repo dir to www-data?
+? read http://benhoskin.gs/2010/08/01/design-and-dsl-changes-in-babushka-v0.6/
 
 # Temp notes
 

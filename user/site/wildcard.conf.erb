@@ -1,4 +1,4 @@
-########## wildcard
+########## wildcard site config from deps
 
 server {          
     listen            80;
@@ -8,5 +8,5 @@ server {
     access_log        <%= ENV['HOME'] %>/shared/log/access.log;
     error_log         <%= ENV['HOME'] %>/shared/log/error.log;
     root              <%= ENV['HOME'] %>/current/public/;
-    index             index.html;
+    index             index.html index.htm index.php;
 }
