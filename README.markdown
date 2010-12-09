@@ -54,3 +54,4 @@ sudo /etc/init.d/nginx restart
 - user: scaffapp
   pass: password
 
+- babushka runs with --defaults mean that previous vars are reused without prompting.
