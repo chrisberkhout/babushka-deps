@@ -16,17 +16,5 @@ server {
     access_log        <%= ENV['HOME'] %>/shared/log/access.log;
     error_log         <%= ENV['HOME'] %>/shared/log/error.log;
     
-    location / {
-        root              <%= ENV['HOME'] %>/current/public;
-        index             index.html index.htm index.php;
-        passenger_enabled on;
-        rails_env         production;
-    }
-    
-    location ~ \.php$ {
-        include           /usr/local/nginx/conf/fastcgi_params;
-        fastcgi_pass      127.0.0.1:9000;
-        fastcgi_index     index.php;
-        fastcgi_param     SCRIPT_FILENAME   <%= ENV['HOME'] %>/current/public$fastcgi_script_name;
-    }
+    <%= render_erb_inline("site/_locations_#{var :site_config_locations}") %>
 }

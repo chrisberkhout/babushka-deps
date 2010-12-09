@@ -1,0 +1,11 @@
+location / {
+    root              <%= ENV['HOME'] %>/current/public;
+    index             index.html index.htm index.php;
+}
+
+location ~ \.php$ {
+    include           /usr/local/nginx/conf/fastcgi_params;
+    fastcgi_pass      127.0.0.1:9000;
+    fastcgi_index     index.php;
+    fastcgi_param     SCRIPT_FILENAME   <%= ENV['HOME'] %>/current/public$fastcgi_script_name;
+}

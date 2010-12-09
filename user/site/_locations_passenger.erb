@@ -1,0 +1,6 @@
+location / {
+    root              <%= ENV['HOME'] %>/current/public;
+    index             index.html index.htm;
+    passenger_enabled on;
+    rails_env         production;
+}
