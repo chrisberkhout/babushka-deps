@@ -4,18 +4,13 @@ dep 'site' do
     'account'
 
   setup {
-    if repo_config = Dir.glob("#{ENV['HOME']}/current/config/deploy/nginx-site{,-#{`hostname`.chomp}}.conf{,.erb}").sort.first do
-      set :site_config_source, repo_config
-    elsif saved_source = Dir.glob("#{ENV['HOME']}/.site_config_is_*").first
-      set :site_config_source_choice = saved_source[/[a-z-]+$/]
-    else
-      define_var :site_config_source_choice,
-        :message => "Which nginx config file should be used for this site?",
-        :choices => ["clean", "www", "wildcard"]
-        :default => "clean"
-    end
-    set :site_config_source, "site/#{saved_source}.conf.erb"
-
+    dep_confs  = ["site/clean.conf.erb", "site/www.conf.erb", "site/wildcard.conf.erb"]
+    repo_confs = Dir.glob("#{ENV['HOME']}/current/config/deploy/nginx-site{,-#{`hostname`.chomp}}.conf{,.erb}").sort
+    define_var :site_config,
+      :message => "Which nginx config file should be used for this site?",
+      :choices => repo_confs + dep_confs
+      :default => repo_confs.first || dep_confs.first
+    
     define_var :site_hostname,
       :message => "What is the hostname for this site (without prefixes like 'www.' or suffixes like '.com.au')?"
       
