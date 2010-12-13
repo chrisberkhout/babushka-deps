@@ -14,7 +14,17 @@
 
 # ToDo
 
+- add site hostname thingo to repo config naming conventions
+- upgrade to passenger 3.0.1
+
 - postgres as db for scaffapp
+  - env vars:
+    PATH=/usr/local/pgsql/bin:$PATH
+    export PATH
+    MANPATH=/usr/local/pgsql/man:$MANPATH
+    export MANPATH
+  - start server?
+  - also: production db and log config (should go out to shared directory)
 
 - deploy flow: site should get repo vhost from next not current
   - initial deploy vs redeploy
