@@ -1,0 +1,55 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          postgres
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the postgres database
+# Description:       starts postgres using start-stop-daemon
+### END INIT INFO
+
+PGUSER="postgres"
+PGDIR="/usr/local/pgsql"
+PGCTL="$PGDIR/bin/pg_ctl"
+PGDATA="$PGDIR/data"
+PGLOG="$PGDATA/logfile"
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+set -e
+
+# Parse command line parameters.
+case $1 in
+  start)
+        echo "Starting PostgreSQL..."
+        su - $PGUSER -c "$PGCTL start -D '$PGDATA' -l '$PGLOG'"
+        echo "ok"
+        ;;
+  stop)
+        echo "Stopping PostgreSQL..."
+        su - $PGUSER -c "$PGCTL stop -D '$PGDATA'"
+        echo "ok"
+        ;;
+  restart)
+        echo "Restarting PostgreSQL..."
+        su - $PGUSER -c "$PGCTL restart -D '$PGDATA' -l '$PGLOG'"
+        echo "ok"
+        ;;
+  reload)
+        echo "Reloading PostgreSQL..."
+        su - $PGUSER -c "$PGCTL reload -D '$PGDATA'"
+        echo "ok"
+        ;;
+  status)
+        su - $PGUSER -c "$PGCTL status -D '$PGDATA'"
+        ;;
+  *)
+        # Print help
+        echo "Usage: $0 {start|stop|restart|reload|status}" 1>&2
+        exit 1
+        ;;
+esac
+
+exit 0
