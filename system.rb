@@ -11,5 +11,6 @@ dep 'system base' do
     'ssh server',
     'known hosts',
     'handy sys packages',
-    'rvm system ree default'
+    'rvm system ree default',
+    'postgres'
 end

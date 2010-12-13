@@ -9,7 +9,7 @@ dep 'postgres' do
   }
   meet {
     Dir.chdir '/usr/local/src'
-    sudo 'wget http://wwwmaster.postgresql.org/download/mirrors-ftp/source/v9.0.1/postgresql-9.0.1.tar.gz'
+    sudo 'wget http://wwwmaster.postgresql.org/redir/198/h/source/v9.0.1/postgresql-9.0.1.tar.gz'
     sudo 'tar -xzf postgresql-9.0.1.tar.gz'
     sudo 'rm postgresql-9.0.1.tar.gz'
     Dir.chdir 'postgresql-9.0.1'
