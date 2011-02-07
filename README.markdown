@@ -6,6 +6,7 @@
       bash -c "`wget -O - babushka.me/up`"
       babushka sources -a cb git://github.com/chrisberkhout/babushka-deps.git
       babushka cb:system
+      babushka cb:postgres
       babushka cb:account
       
   - In the account you created, run:
@@ -16,6 +17,8 @@
 - I am just using simple deps and not a lot of helpers because I want full awareness and control of what is being run. I also want the dep definition to easily read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to switch to custom or build-in meta-deps and other babushka functionality later where beneficial.
 
 # ToDo
+
+- add a run of "sudo apt-get update"
 
 - finish postgres (test with scaffapp)
   ? start server

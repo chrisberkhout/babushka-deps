@@ -24,7 +24,7 @@ dep 'php-fastcgi wrapper' do
     'php5-cgi',
     'spawn-fcgi'
   met? { !changed_from_erb?("/usr/bin/php-fastcgi", "php/usr_bin_php-fastcgi.erb") && File.executable?("/usr/bin/php-fastcgi") }
-  meet { render_erb "php/usr_bin_php-fastcgi.erb", :to => "/usr/bin/php-fastcgi", :perms => '755', :sudo => true }
+  meet { my_render_erb "php/usr_bin_php-fastcgi.erb", :to => "/usr/bin/php-fastcgi", :perms => '755', :sudo => true }
 end
 
 dep 'php5-cgi' do
