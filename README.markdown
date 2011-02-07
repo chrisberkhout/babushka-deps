@@ -18,9 +18,14 @@
 
 # ToDo
 
-- add a run of "sudo apt-get update"
+- finish postgres:
 
-- finish postgres (test with scaffapp)
+  - get current dep broken up and with tests. run now, rerun freshly rolled-back.
+
+  ? need to set extra ENV var:
+      chris@ubuntu:~$ /usr/local/pgsql/bin/pg_ctl status
+      pg_ctl: no database directory specified and environment variable PGDATA unset
+      Try "pg_ctl --help" for more information.
   ? start server
   ? init DB
   ? need to do add to running ENV, or should just use full paths ?:
@@ -29,10 +34,12 @@
     MANPATH=/usr/local/pgsql/man:$MANPATH
     export MANPATH
   ? got everything ?
+  - test with scaffapp
   
   - also: production db and log config (should go out to shared directory(s))
 
 
+- add a run of "sudo apt-get update" (needed to happen last time to get php deb files)
 
 - upgrade to passenger 3.0.1
 
