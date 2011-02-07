@@ -77,6 +77,7 @@ dep 'sys libs for mri and ree' do
     'libsqlite3-dev',
     'sqlite3',
     'libxml2-dev',
+    'libxslt1-dev',
     'extra sys libs for ruby-head'
 end
 
@@ -122,6 +123,10 @@ end
 dep 'autoconf' do
   met? { `dpkg -s autoconf 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install autoconf" }
+end
+dep 'libxslt1-dev' do # needed by nokogiri, might as well install it with ruby
+  met? { `dpkg -s libxslt1-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libxslt1-dev" }
 end
 
 
