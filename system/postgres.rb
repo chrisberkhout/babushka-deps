@@ -27,16 +27,16 @@ dep 'postgres' do
     
     # There are problems if the postgres user doesn't have the bash shell
     sudo  'adduser postgres --system --group --no-create-home --disabled-password --disabled-login --shell "/bin/bash"'
-    sudo  'mkdir /usr/local/pgsql/data'
+    sudo  'mkdir -p /usr/local/pgsql/data'
     sudo  'chown -R postgres:postgres /usr/local/pgsql/data'
     sudo  '/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data', :as => 'postgres'
     
+    my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
+    sudo  'chmod +x /etc/profile.d/postgres.sh'
+
     my_render_erb "postgres/etc_init.d_postgres.erb", :to => '/etc/init.d/postgres', :sudo => true
     sudo  'chmod +x /etc/init.d/postgres'
     sudo  'update-rc.d postgres defaults'
-    
-    my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
-    sudo  'chmod +x /etc/profile.d/postgres.sh'
   }
 end
 

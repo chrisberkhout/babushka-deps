@@ -119,8 +119,8 @@ dep 'nginx sites directories and sys config' do
     !changed_from_erb?('/usr/local/nginx/conf/nginx.conf', 'nginx/nginx.conf.erb')
   }
   meet {
-    sudo "mkdir /usr/local/nginx/sites-available"
-    sudo "mkdir /usr/local/nginx/sites-enabled"
+    sudo "mkdir -p /usr/local/nginx/sites-available"
+    sudo "mkdir -p /usr/local/nginx/sites-enabled"
     my_render_erb "nginx/nginx.conf.erb", :to => '/usr/local/nginx/conf/nginx.conf', :sudo => true
     sudo "/etc/init.d/nginx restart" if File.exist?('/usr/local/nginx/logs/nginx.pid')
   }
