@@ -24,26 +24,26 @@ set -e
 case $1 in
   start)
         echo "Starting PostgreSQL..."
-        su - $PGUSER -c "$PGCTL start -D '$PGDATA' -l '$PGLOG'"
+        sudo -u $PGUSER $PGCTL start -D $PGDATA -l $PGLOG
         echo "ok"
         ;;
   stop)
         echo "Stopping PostgreSQL..."
-        su - $PGUSER -c "$PGCTL stop -D '$PGDATA'"
+        sudo -u $PGUSER $PGCTL stop -D $PGDATA
         echo "ok"
         ;;
   restart)
         echo "Restarting PostgreSQL..."
-        su - $PGUSER -c "$PGCTL restart -D '$PGDATA' -l '$PGLOG'"
+        sudo -u $PGUSER $PGCTL restart -D $PGDATA -l $PGLOG
         echo "ok"
         ;;
   reload)
         echo "Reloading PostgreSQL..."
-        su - $PGUSER -c "$PGCTL reload -D '$PGDATA'"
+        sudo -u $PGUSER $PGCTL reload -D $PGDATA
         echo "ok"
         ;;
   status)
-        su - $PGUSER -c "$PGCTL status -D '$PGDATA'"
+        sudo -u $PGUSER $PGCTL status -D $PGDATA
         ;;
   *)
         # Print help
