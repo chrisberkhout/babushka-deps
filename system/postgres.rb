@@ -25,17 +25,17 @@ dep 'postgres' do
     shell 'make'
     sudo  'make install'
     
-    # there are problems is the postgres user doesn't have the bash shell
+    # There are problems if the postgres user doesn't have the bash shell
     sudo  'adduser postgres --system --group --no-create-home --disabled-password --disabled-login --shell "/bin/bash"'
     sudo  'mkdir /usr/local/pgsql/data'
     sudo  'chown -R postgres:postgres /usr/local/pgsql/data'
     sudo  '/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data', :as => 'postgres'
     
-    render_erb "postgres/etc_init.d_postgres.erb", :to => '/etc/init.d/postgres', :sudo => true
+    my_render_erb "postgres/etc_init.d_postgres.erb", :to => '/etc/init.d/postgres', :sudo => true
     sudo  'chmod +x /etc/init.d/postgres'
     sudo  'update-rc.d postgres defaults'
     
-    render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
+    my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
     sudo  'chmod +x /etc/profile.d/postgres.sh'
   }
 end

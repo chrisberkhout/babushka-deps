@@ -12,5 +12,6 @@ dep 'system base' do
     'known hosts',
     'handy sys packages',
     'rvm system ree default',
-    'postgres'
+    'nginx',
+    'php'
 end

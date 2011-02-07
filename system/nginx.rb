@@ -95,7 +95,7 @@ dep 'nginx init script' do
     `update-rc.d -n nginx defaults 2>&1`.include?('System start/stop links for /etc/init.d/nginx already exist.')
   }
   meet {
-    render_erb "nginx/etc_init.d_nginx.erb", :to => '/etc/init.d/nginx', :sudo => true
+    my_render_erb "nginx/etc_init.d_nginx.erb", :to => '/etc/init.d/nginx', :sudo => true
     sudo "chmod +x /etc/init.d/nginx"
     sudo "/usr/sbin/update-rc.d -f nginx defaults"
   }
@@ -121,7 +121,7 @@ dep 'nginx sites directories and sys config' do
   meet {
     sudo "mkdir /usr/local/nginx/sites-available"
     sudo "mkdir /usr/local/nginx/sites-enabled"
-    render_erb "nginx/nginx.conf.erb", :to => '/usr/local/nginx/conf/nginx.conf', :sudo => true
+    my_render_erb "nginx/nginx.conf.erb", :to => '/usr/local/nginx/conf/nginx.conf', :sudo => true
     sudo "/etc/init.d/nginx restart" if File.exist?('/usr/local/nginx/logs/nginx.pid')
   }
 end

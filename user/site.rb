@@ -31,7 +31,7 @@ dep 'site' do
 
   meet {
     puts "Using nginx site config from: #{var :site_config_source}"
-    render_erb var(:site_config_source), :to => var(:site_config_destination), :sudo => true
+    my_render_erb var(:site_config_source), :to => var(:site_config_destination), :sudo => true
     shell "ln -sf #{var :site_config_destination} #{var :site_enabled_link}", :sudo => true
     shell "/etc/init.d/nginx restart", :sudo => true
   }
