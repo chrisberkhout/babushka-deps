@@ -92,7 +92,7 @@ dep 'postgres data dir set up' do
   met? {
     File.directory?('/usr/local/pgsql/data') &&
     !dir_empty?('/usr/local/pgsql/data', :sudo => true) &&
-    has_owner_and_group?('/usr/local/pgsql/data', 'postgres:postgres')
+    owner_and_group?('/usr/local/pgsql/data', 'postgres:postgres')
   }
   meet {
     sudo 'mkdir -p /usr/local/pgsql/data'
