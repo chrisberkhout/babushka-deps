@@ -1,41 +1,27 @@
+require 'ftools'
+ 
 dep 'postgres' do
   # http://www.postgresql.org/docs/9.0/static/installation.html
+  requires \
+    'postgres built and installed',
+    'postgres user exists with bash shell',
+    'postgres data dir set up',
+    'postgres init files set up',
+    'postgres environment variables set up'
+end
+
+
+dep 'postgres built and installed' do
   requires \
     'postgres basic sys libs',
     'postgres procedural langs',
     'postgres auth and encryption libs'
   met? {
-    false
-    
-    # postgres installed, and with right stuff compiled in
-        # chris@ubuntu:~$ /usr/local/pgsql/bin/postgres --version
-        # postgres (PostgreSQL) 9.0.3
-        # chris@ubuntu:~$ /usr/local/pgsql/bin/pg_config --configure
-        # '--with-tcl' '--with-perl' '--with-python' 'PYTHON=/usr/bin/python3.1' '--with-openssl'
-    
-    # profile.d setup to add PG's bin dir to path
-    
-    # postgres user added
-    
-    # data directory setup, correct owner & db files initialised
-        # chris@ubuntu:~$ sudo -u postgres /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
-        # [sudo] password for chris: 
-        # The files belonging to this database system will be owned by user "postgres".
-        # This user must also own the server process.
-        # 
-        # The database cluster will be initialized with locale en_US.UTF-8.
-        # The default database encoding has accordingly been set to UTF8.
-        # The default text search configuration will be set to "english".
-        # 
-        # initdb: directory "/usr/local/pgsql/data" exists but is not empty
-        # If you want to create a new database system, either remove or empty
-        # the directory "/usr/local/pgsql/data" or run initdb
-        # with an argument other than "/usr/local/pgsql/data".
-    
-    # init files set up
-        # chris@ubuntu:~$ sudo update-rc.d postgres defaults
-        #  System start/stop links for /etc/init.d/postgres already exist.
-    
+    `/usr/local/pgsql/bin/postgres --version`['postgres (PostgreSQL) 9.0.3'] &&
+    `/usr/local/pgsql/bin/pg_config --configure`['--with-tcl'] &&
+    `/usr/local/pgsql/bin/pg_config --configure`['--with-perl'] &&
+    `/usr/local/pgsql/bin/pg_config --configure`['--with-python'] &&
+    `/usr/local/pgsql/bin/pg_config --configure`['--with-openssl']
   }
   meet {
     Dir.chdir '/usr/local/src'
@@ -43,7 +29,6 @@ dep 'postgres' do
     sudo 'tar -xzf postgresql-9.0.3.tar.gz'
     sudo 'rm postgresql-9.0.3.tar.gz'
     Dir.chdir 'postgresql-9.0.3'
-    
     config_cmd = <<-END_OF_CMD
       ./configure \
           --with-tcl \
@@ -54,30 +39,8 @@ dep 'postgres' do
     shell config_cmd
     shell 'make'
     sudo  'make install'
-    
-    # There are problems if the postgres user doesn't have the bash shell
-    sudo  'adduser postgres --system --group --no-create-home --disabled-password --disabled-login --shell "/bin/bash"'
-    sudo  'mkdir -p /usr/local/pgsql/data'
-    sudo  'chown -R postgres:postgres /usr/local/pgsql/data'
-    init_cmd = <<-END_OF_CMD
-      /usr/local/pgsql/bin/initdb \
-          --auth="trust" \
-          --pgdata=/usr/local/pgsql/data \
-          --locale=en_US.UTF-8 \
-          --encoding=UTF8 \
-          --text-search-config="english"
-    END_OF_CMD
-    sudo init_cmd, :as => 'postgres'
-    
-    my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
-    sudo  'chmod +x /etc/profile.d/postgres.sh'
-
-    my_render_erb "postgres/etc_init.d_postgres.erb", :to => '/etc/init.d/postgres', :sudo => true
-    sudo  'chmod +x /etc/init.d/postgres'
-    sudo  'update-rc.d postgres defaults'
   }
 end
-
 
 dep 'postgres basic sys libs' do
   requires \
@@ -85,7 +48,6 @@ dep 'postgres basic sys libs' do
     'libreadline5-dev',
     'lsb-base'
 end
-
 
 dep 'postgres procedural langs' do
   requires \
@@ -107,9 +69,74 @@ dep 'python3-dev' do
   meet { sudo "apt-get -y install python3-dev" }
 end
 
-
 dep 'postgres auth and encryption libs' do
   requires \
     'openssl'
     # Not including: Kerberos ('libkrb5-dev'?), LDAP ('openldap2-dev') or PAM ('libpam0g-dev').
+end
+
+    
+dep 'postgres user exists with bash shell' do
+  met? { grep(/^postgres:.*?:\/bin\/bash$/, '/etc/passwd') }
+  meet { 
+    # There are problems if the postgres user doesn't have the bash shell
+    sudo 'adduser postgres --system --group --no-create-home --disabled-password --disabled-login --shell "/bin/bash"'
+  }
+end
+
+
+dep 'postgres data dir set up' do
+  requires \
+    'postgres built and installed',
+    'postgres user exists with bash shell'
+  met? {
+    File.directory?('/usr/local/pgsql/data') &&
+    !dir_empty?('/usr/local/pgsql/data') &&
+    has_owner_and_group?('/usr/local/pgsql/data', 'postgres:postgres')
+  }
+  meet {
+    sudo 'mkdir -p /usr/local/pgsql/data'
+    sudo 'chown -R postgres:postgres /usr/local/pgsql/data'
+    init_cmd = <<-END_OF_CMD
+      /usr/local/pgsql/bin/initdb \
+          --auth="trust" \
+          --pgdata=/usr/local/pgsql/data \
+          --locale=en_US.UTF-8 \
+          --encoding=UTF8 \
+          --text-search-config="english"
+    END_OF_CMD
+    sudo init_cmd, :as => 'postgres'
+  }
+end
+
+
+dep 'postgres environment variables set up' do
+  requires \
+    'postgres built and installed'
+  met? { 
+    !changed_from_erb?('/etc/profile.d/postgres.sh', 'postgres/etc_profile.d_postgres.sh.erb') &&
+    File.executable?('/etc/profile.d/postgres.sh')
+  }
+  meet {
+    my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
+    sudo 'chmod +x /etc/profile.d/postgres.sh'
+  }
+end
+
+
+dep 'postgres init files set up' do
+  requires \
+    'postgres built and installed',
+    'postgres user exists with bash shell',
+    'postgres data dir set up'
+  met? {
+    !changed_from_erb?('/etc/init.d/postgres', 'postgres/etc_init.d_postgres.erb') &&
+    File.executable?('/etc/init.d/postgres') &&
+    `sudo update-rc.d postgres defaults`['System start/stop links for /etc/init.d/postgres already exist.']
+  }
+  meet {
+    my_render_erb "postgres/etc_init.d_postgres.erb", :to => '/etc/init.d/postgres', :sudo => true
+    sudo  'chmod +x /etc/init.d/postgres'
+    sudo  'update-rc.d postgres defaults'
+  }
 end
