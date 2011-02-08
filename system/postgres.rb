@@ -91,7 +91,7 @@ dep 'postgres data dir set up' do
     'postgres user exists with bash shell'
   met? {
     File.directory?('/usr/local/pgsql/data') &&
-    dir_empty?('/usr/local/pgsql/data', :sudo => true) &&
+    !dir_empty?('/usr/local/pgsql/data', :sudo => true) &&
     has_owner_and_group?('/usr/local/pgsql/data', 'postgres:postgres')
   }
   meet {
