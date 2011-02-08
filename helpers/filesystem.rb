@@ -6,6 +6,6 @@ def owner_and_group?(file, user_and_group)
   Etc.getgruid(File.stat(file).gid).name == group
 end
 
-def dir_empty?(dir)
-  (Dir.entries(dir) - %w[. ..]).empty?
+def dir_empty?(dir, opts = {})
+  `#{opts[:sudo] ? 'sudo ' : ''} ls #{dir}`[/^$/]
 end
