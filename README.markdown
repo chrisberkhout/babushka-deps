@@ -19,29 +19,15 @@
 # ToDo
 
 - finish postgres:
-
-  - get current dep broken up and with tests. run now, rerun freshly rolled-back.
-
-  ? need to set extra ENV var:
-      chris@ubuntu:~$ /usr/local/pgsql/bin/pg_ctl status
-      pg_ctl: no database directory specified and environment variable PGDATA unset
-      Try "pg_ctl --help" for more information.
-  ? start server
-  ? init DB
-  ? need to do add to running ENV, or should just use full paths ?:
-    PATH=/usr/local/pgsql/bin:$PATH
-    export PATH
-    MANPATH=/usr/local/pgsql/man:$MANPATH
-    export MANPATH
-  ? got everything ?
-  - test with scaffapp
-  
-  - also: production db and log config (should go out to shared directory(s))
-
+  - rerun freshly rolled-back.
+  - test with scaffapp to check got everything
+  - does this mean all users connecting locally have full access to all DB's ? alternate auth schemes better ?
 
 - add a run of "sudo apt-get update" (needed to happen last time to get php deb files)
 
 - upgrade to passenger 3.0.1
+
+- app log files should go out in a shared directory
 
 - deploy flow: site should get repo vhost from next not current
   - initial deploy vs redeploy

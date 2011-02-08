@@ -7,7 +7,8 @@ dep 'postgres' do
     'postgres user exists with bash shell',
     'postgres data dir set up',
     'postgres init files set up',
-    'postgres environment variables set up'
+    'postgres environment variables set up',
+    'postgres server started'
 end
 
 
@@ -140,3 +141,11 @@ dep 'postgres init files set up' do
     sudo  'update-rc.d postgres defaults'
   }
 end
+
+
+dep 'postgres server started' do
+  requires 'postgres init files set up'
+  met? { `/etc/init.d/postgres status`['pg_ctl: server is running'] }
+  meet { shell '/etc/init.d/postgres start' }
+end
+
