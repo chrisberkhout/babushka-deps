@@ -18,7 +18,9 @@ dep 'postgres built and installed' do
     'postgres procedural langs',
     'postgres auth and encryption libs'
   met? {
+    File.exists?('/usr/local/pgsql/bin/postgres') &&
     `/usr/local/pgsql/bin/postgres --version`['postgres (PostgreSQL) 9.0.3'] &&
+    File.exists?('/usr/local/pgsql/bin/pg_config') &&
     `/usr/local/pgsql/bin/pg_config --configure`['--with-tcl'] &&
     `/usr/local/pgsql/bin/pg_config --configure`['--with-perl'] &&
     `/usr/local/pgsql/bin/pg_config --configure`['--with-python'] &&

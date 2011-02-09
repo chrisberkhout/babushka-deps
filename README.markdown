@@ -19,7 +19,6 @@
 # ToDo
 
 - finish postgres:
-  - rerun freshly rolled-back.
   - test with scaffapp to check got everything
   - does this mean all users connecting locally have full access to all DB's ? alternate auth schemes better ?
 
