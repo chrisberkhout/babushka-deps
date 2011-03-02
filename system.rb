@@ -13,5 +13,6 @@ dep 'system base' do
     'handy sys packages',
     'rvm system ree default',
     'nginx',
-    'php'
+    'php',
+    'postgres'
 end
