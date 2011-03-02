@@ -1,4 +1,5 @@
 dep 'sphinx' do
+  # NOTE: I'm leaving it up to any app wanting sphinx to do the start/stop stuff.  
   # http://www.hackido.com/2009/01/install-sphinx-search-on-ubuntu.html
   # http://sphinxsearch.com/wiki/doku.php?id=sphinx_sphinxse_on_ubuntu_karmic_9.10
   requires \
