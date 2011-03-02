@@ -1,7 +1,7 @@
 dep 'mysql' do
   requires \
     'mysql-server-5.1',
-    'libmysqlclient15-dev'
+    'libmysqlclient-dev'
 end
 
 dep 'mysql-server-5.1' do
