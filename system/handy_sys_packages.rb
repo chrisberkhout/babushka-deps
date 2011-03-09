@@ -3,7 +3,9 @@ dep 'handy sys packages' do
     'build-essential',
     'curl',
     'bison',
-    'imagemagick'
+    'imagemagick',
+    'libmagickcore-dev',
+    'libmagickwand-dev'
 end
 
 
@@ -23,15 +25,14 @@ dep 'curl' do
 end
 
 dep 'imagemagick' do
-  requires \
-    'imagemagick deb',
-    'libmagickcore-dev'
-end
-dep 'imagemagick deb' do
   met? { `dpkg -s imagemagick 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install imagemagick" }
 end
 dep 'libmagickcore-dev' do
   met? { `dpkg -s libmagickcore-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install libmagickcore-dev" }
+end
+dep 'libmagickwand-dev' do
+  met? { `dpkg -s libmagickwand-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libmagickwand-dev" }
 end
