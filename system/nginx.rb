@@ -87,6 +87,7 @@ end
 
 dep 'nginx init script' do
   # http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-adding-an-nginx-init-script
+  # http://wiki.nginx.org/nginx-init-ubuntu
   requires \
     'lsb-base',
     'nginx built and installed'
