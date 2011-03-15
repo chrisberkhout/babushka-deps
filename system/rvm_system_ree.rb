@@ -8,6 +8,6 @@ end
 
 dep 'rvm system ree default' do
   requires 'rvm system ree'
-  met? { `ls -l /usr/local/rvm/rubies/default 2>&1`[/.*?\-\> \/usr\/local\/rvm\/rubies\/ree\-1\.8\.7\-2010\.02\/ruby/] }
+  met? { `ls -l /usr/local/rvm/rubies/default 2>&1`[/.*?\-\> \/usr\/local\/rvm\/rubies\/ree\-1\.8\.7\-2010\.02/] }
   meet { shell 'bash -lc "sg rvm -c \"rvm --default use ree-1.8.7-2010.02\""' }
 end
