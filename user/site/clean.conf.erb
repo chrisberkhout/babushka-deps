@@ -1,8 +1,8 @@
 ########## clean site config from deps
 
 server {
-    listen        80;
     server_name   www.<%= var :site_hostname %>.*;
+    <%= render_erb_inline("site/_server_common.erb", :indent => 4) %>
     if ($host ~* www\.(.*)) { 
         set           $host_without_www $1; 
         rewrite       ^/(.*) http://$host_without_www/$1 permanent;
@@ -10,8 +10,8 @@ server {
 }
            
 server {          
-    listen            80;
     server_name       <%= var :site_hostname %>.*;
+    <%= render_erb_inline("site/_server_common.erb", :indent => 4) %>
     <%= render_erb_inline("site/_logs.erb", :indent => 4) %>
     <%= render_erb_inline("site/_errors_and_maintenance.erb", :indent => 4) %>
     <%= render_erb_inline("site/_locations_#{var :site_config_locations}.erb", :indent => 4) %>
