@@ -32,7 +32,9 @@ dep 'rvm system' do
     # This works if system-wide rvm has been installed, even if the shell hasn't been closed and reopened.
     `bash -lc "rvm --version" 2>&1`[/rvm \d+\.\d+\.\d+ /] &&
     `bash -lc "env | grep ^rvm_path="`[/^rvm_path=\/usr\/local\/rvm$/] &&
-    `bash -lc "type rvm | head -n1" 2>&1`[/^rvm is a function/]
+    `bash -lc "type rvm | head -n1" 2>&1`[/^rvm is a function/] && 
+    !changed_from_erb?('/usr/local/rvm/gemsets/default.gems', 'rvm_system/default.gems.erb') &&
+    !changed_from_erb?('/usr/local/rvm/gemsets/global.gems', 'rvm_system/global.gems.erb')
   }
   meet {
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
@@ -41,6 +43,9 @@ dep 'rvm system' do
     shell "curl -L http://bit.ly/rvm-install-system-wide > /tmp/rvm-install-system-wide"
     sudo  "bash /tmp/rvm-install-system-wide"
     shell "rm /tmp/rvm-install-system-wide"
+    
+    my_render_erb "rvm_system/default.gems.erb", :to => '/usr/local/rvm/gemsets/default.gems', :sudo => true
+    my_render_erb "rvm_system/global.gems.erb",  :to => '/usr/local/rvm/gemsets/global.gems',  :sudo => true
 
     line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /usr/local/lib/rvm ]] ; then source /usr/local/lib/rvm ; fi\n"
     # For login shells:
