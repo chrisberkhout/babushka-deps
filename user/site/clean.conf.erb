@@ -12,9 +12,7 @@ server {
 server {          
     listen            80;
     server_name       <%= var :site_hostname %>.*;
-
-    access_log        <%= ENV['HOME'] %>/shared/log/access.log;
-    error_log         <%= ENV['HOME'] %>/shared/log/error.log;
-    
+    <%= render_erb_inline("site/_logs.erb", :indent => 4) %>
+    <%= render_erb_inline("site/_errors_and_maintenance.erb", :indent => 4) %>
     <%= render_erb_inline("site/_locations_#{var :site_config_locations}.erb", :indent => 4) %>
 }

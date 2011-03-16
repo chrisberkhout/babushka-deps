@@ -1,0 +1,25 @@
+# http://onehub.com/blog/posts/rails-maintenance-pages-done-right/
+
+recursive_error_pages on;
+
+# Show the maintenance page with a 503 if it exists.
+if (-f $document_root/maintenance.html) {
+  return 503;
+}
+ 
+error_page 404 /404.html;
+error_page 500 502 504 /500.html;
+error_page 503 @503;
+
+location @503 {
+
+  # If a 'Method Not Allowed' happens, still show the maintenance page.
+  error_page 405 = /maintenance.html;
+
+  # Serve static assets if found.
+  if (-f $request_filename) { 
+    break;
+  }
+ 
+  rewrite ^(.*)$ /maintenance.html break;
+}
