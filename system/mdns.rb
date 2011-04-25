@@ -2,6 +2,9 @@ dep 'mdns' do
   # mDSN is Multicast DNS (for automatic 'hostname.local.' (note trailing dot) on the local network):
   #    http://en.wikipedia.org/wiki/Zero_configuration_networking
   #    http://en.wikipedia.org/wiki/Avahi_(software)
+  # It is possible to publish extra CNAME records with avahi by using its API, but 
+  #    the Windows Bonjour client probably won't read them: http://bit.ly/ft0SlE 
+  #    It's too hard, so just used avahi for announcing a single hostname and use ghost manually for extras.
   requires 'avahi-daemon'
 end
 
