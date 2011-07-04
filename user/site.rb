@@ -1,5 +1,5 @@
 dep 'site' do
-  # requires 'nginx', 'account'
+  requires 'nginx', 'account'
 
   setup {
     repo_confs = Dir.glob("#{ENV['HOME']}/current/config/deploy/nginx-site{,-#{`hostname`.chomp}}.conf{,.erb}").sort

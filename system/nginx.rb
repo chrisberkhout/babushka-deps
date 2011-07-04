@@ -46,13 +46,13 @@ end
 
 dep 'passenger for nginx' do
   # http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_installing_phusion_passenger_for_nginx_manually
-  # To have a given rails app use a different gemset (but same ruby: ree), see: 
+  # To have a given rails app use a different gemset (but same ruby: ruby19), see: 
   #     http://rvm.beginrescueend.com/integration/passenger/
   # Multiple rubies via standalone passenger is probably best done as part of the setup of any accounts that need it. See also:
   #     http://blog.phusion.nl/2010/09/21/phusion-passenger-running-multiple-ruby-versions/
   #     http://www.modrails.com/documentation/Users%20guide%20Standalone.html
   requires \
-    'rvm system ree default',
+    'rvm system ruby19 default',
     'build-essential',
     'curl',
     'libcurl4-openssl-dev'
@@ -61,7 +61,7 @@ dep 'passenger for nginx' do
     File.exist?(`bash -lc "passenger-config --root"`.chomp + '/agents/nginx/PassengerHelperAgent')
   }
   meet { 
-    shell 'bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install passenger --version 3.0.0\""' 
+    shell 'bash -lc "sg rvm -c \"rvm ree-1.9.2-p180@default gem install passenger --version 3.0.0\""' 
     Dir.chdir( `bash -lc "passenger-config --root"`.chomp + '/ext/nginx' )
     sudo 'bash -lc "sg rvm -c \"rake nginx\""' # doing this now means nginx ./configure won't try it and create rvm complications
   }
@@ -109,7 +109,7 @@ end
 
 
 dep 'nginx sites directories and sys config' do
-  # Note that this nginx.conf setup assumes a system-wide rvm install of ree is in the usual place.
+  # Note that this nginx.conf setup assumes a system-wide rvm install of ruby-1.9.2-p180 is in the usual place.
   # Regarding sites directories, see: http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-nginx-from-source-layout
   requires \
     'rvm system ree default',

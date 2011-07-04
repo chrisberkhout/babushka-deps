@@ -10,14 +10,14 @@ dep 'rvm system' do
   # you need to use special subshells to ensure...
   #   that the shell environment is properly reloaded (`bash -lc "command"`), and
   #   that the new membership of the rvm group is active (`sg rvm -c "command"`). E.g.:
-  #     `bash -lc "sg rvm -c \"rvm install ree-1.8.7-2010.02\""`          # install ree
-  #     `bash -lc "sg rvm -c \"rvm --default use ree-1.8.7-2010.02\""`    # set ree as the system default ruby
+  #     `bash -lc "sg rvm -c \"rvm install ruby-1.9.2-p180\""`          # install ree
+  #     `bash -lc "sg rvm -c \"rvm --default use ruby-1.9.2-p180\""`    # set ree as the system default ruby
   #
   # Gems will usually be installed into custom gemsets later, while setting up each account/project,
   # however, they can be installed without closing and restarting the shell, as follows:
-  #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@default gem install rake\""`    # install into default gemset of given ruby
-  #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02 gemset create gemsetname\""`    # create new gemset for a given ruby
-  #     `bash -lc "sg rvm -c \"rvm ree-1.8.7-2010.02@gemsetname gem install rake\""` # install into specific gemset of given ruby
+  #     `bash -lc "sg rvm -c \"rvm ruby-1.9.2-p180@default gem install rake\""`    # install into default gemset of given ruby
+  #     `bash -lc "sg rvm -c \"rvm ruby-1.9.2-p180 gemset create gemsetname\""`    # create new gemset for a given ruby
+  #     `bash -lc "sg rvm -c \"rvm ruby-1.9.2-p180@gemsetname gem install rake\""` # install into specific gemset of given ruby
   # Other variations may not work as expected and should be carefully tested.
   #
   requires \
