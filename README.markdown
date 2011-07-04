@@ -17,7 +17,7 @@ These deps are for setting up a system and its accounts. They don't (or don't cu
 * Passwordless authentication from a dev machine
 * Deployment/redeployment of individual apps
 
-## To get going and deploy an app...
+## To get going and set up a new site...
 
 As a sudoer, run:
 
@@ -33,7 +33,7 @@ An different `cb:system_*` setup may be required. See `system.rb` for alternativ
 
 ## Notes
 
-I am just using simple deps and not a lot of helpers because I want full awareness and control of what is being run. I also want the dep definition to easily read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to switch to custom or build-in meta-deps and other babushka functionality later where beneficial.                       
+I am intentionally using only simple deps and with few lot of helpers because I want full awareness and control of what is being run. I also want the dep definition to read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to switch to custom or build-in meta-deps and other babushka functionality later where beneficial.                       
 
 ## Copyright
 
