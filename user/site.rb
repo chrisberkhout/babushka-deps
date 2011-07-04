@@ -2,20 +2,15 @@ dep 'site' do
   requires 'nginx', 'account'
 
   setup {
-    repo_confs = Dir.glob("#{ENV['HOME']}/current/config/deploy/nginx-site{,-#{`hostname`.chomp}}.conf{,.erb}").sort
-    if repo_confs.first
-      set :site_config_source, repo_confs.first
-    else
-      define_var :site_config_selection,
-        :message => "Which general purpose nginx config file should be used for this site?",
-        :choices => ["clean", "www", "wildcard"],
-        :default => "clean"
-      set :site_config_source, "site/#{var :site_config_selection}.conf.erb"
-      define_var :site_config_locations,
-        :message => "Which location statements do you want in the nginx config file?",
-        :choices => ["passenger", "php"],
-        :default => "passenger"
-    end
+    define_var :site_config_selection,
+      :message => "Which general purpose nginx config file should be used for this site?",
+      :choices => ["clean", "www", "wildcard"],
+      :default => "clean"
+    set :site_config_source, "site/#{var :site_config_selection}.conf.erb"
+    define_var :site_config_locations,
+      :message => "Which location statements do you want in the nginx config file?",
+      :choices => ["passenger", "php"],
+      :default => "passenger"
     
     define_var :site_hostname,
       :message => "What is the hostname for this site (without prefixes like 'www.' or suffixes like '.com.au')?"
