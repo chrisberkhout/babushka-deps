@@ -33,12 +33,17 @@ An different `cb:system_*` setup may be required. See `system.rb` for alternativ
 
 ## Special setup
 
+Setup:
+
     git update-server-info
     gem install asdf
     echo -e "On the target machine, run:\nbabushka sources -a ns http://`/usr/libexec/PlistBuddy -c 'Print System:Network:HostNames:LocalHostName' /Library/Preferences/SystemConfiguration/preferences.plist`.local:9292/.git"
     asdf
-    
-    
+
+Recommit:
+
+    ga .; gc -m "."; git update-server-info
+
 
 ## Notes
 
