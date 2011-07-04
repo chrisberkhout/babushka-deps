@@ -1,5 +1,5 @@
 dep 'ubuntu lucid 10.04' do
-  met? { grep 'Ubuntu 10.04!', '/etc/lsb-release' }
+  met? { grep 'Ubuntu 10.04', '/etc/lsb-releaseNONO' }
 end
 
 dep 'ubuntu lucid 10.04 or later' do
