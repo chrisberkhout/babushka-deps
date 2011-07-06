@@ -6,7 +6,7 @@ My [Babushka](http://babushka.me) deps for setting up a Linux VPS.
 
 In development. More to do... In particular:
 
-* Check postgres setup is okay
+* Check postgres setup is OK
 * MongoDB
 * ElasticSearch
 
