@@ -12,7 +12,7 @@ dep 'sphinx' do
   }
   meet {
     Dir.chdir '/usr/local/src'
-    sudo 'wget http://sphinxsearch.com/files/sphinx-0.9.9.tar.gz'
+    sudo 'wget -r http://sphinxsearch.com/files/sphinx-0.9.9.tar.gz'
     sudo 'tar -xzf sphinx-0.9.9.tar.gz'
     sudo 'rm sphinx-0.9.9.tar.gz'
     Dir.chdir 'sphinx-0.9.9'

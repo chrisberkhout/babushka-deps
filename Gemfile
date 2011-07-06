@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 group :test, :development do
-  gem "adsf"
+  gem "asdf"
   gem "guard"
   gem "guard-shell"
   gem "rb-fsevent" # for guard on mac
