@@ -40,7 +40,9 @@ dep 'rvm system' do
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
     ENV.keys.select{ |k| !k[/^rvm_/].nil? }.each{ |k| ENV.delete(k) }
 
-    sudo  "bash < <(curl -s https://rvm.beginrescueend.com/install/rvm)"
+    shell "curl -L https://rvm.beginrescueend.com/install/rvm > /tmp/rvm-install-script"
+    sudo  "bash /tmp/rvm-install-script"
+    shell "rm /tmp/rvm-install-script"
     
     my_render_erb "rvm_system/default.gems.erb", :to => '/usr/local/rvm/gemsets/default.gems', :sudo => true
     my_render_erb "rvm_system/global.gems.erb",  :to => '/usr/local/rvm/gemsets/global.gems',  :sudo => true
