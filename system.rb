@@ -1,4 +1,4 @@
-dep 'system_chrisberkhout.com' do
+dep 'system chrisberkhout.com' do
   requires \
     'ubuntu lucid 10.04 or later',
     'apt-get update today',
@@ -16,7 +16,7 @@ dep 'system_chrisberkhout.com' do
     'nothing else'
 end
 
-dep 'system_policycn' do
+dep 'system policycn' do
   requires \
     'ubuntu lucid 10.04 or later',
     'apt-get update today',

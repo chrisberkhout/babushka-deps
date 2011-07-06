@@ -23,10 +23,10 @@ As a sudoer, run:
 
     sudo bash -c "`wget -O - babushka.me/up`"
     babushka sources -a cb git://github.com/chrisberkhout/babushka-deps.git
-    babushka cb:system_chrisberkhout.com
+    babushka cb:'system chrisberkhout.com'
     babushka cb:account
 
-An different `cb:system_*` setup may be required. See `system.rb` for alternatives. After that, in the account you created, run:
+A different `cb:'system *'` setup may be required. See `system.rb` for alternatives. After that, in the account you created, run:
 
     babushka sources -a cb git://github.com/chrisberkhout/babushka-deps.git
     babushka cb:site
