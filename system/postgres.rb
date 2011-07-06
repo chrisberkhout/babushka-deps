@@ -28,7 +28,8 @@ dep 'postgres built and installed' do
   }
   meet {
     Dir.chdir '/usr/local/src'
-    sudo 'wget -r http://wwwmaster.postgresql.org/redir/333/h/source/v9.0.3/postgresql-9.0.3.tar.gz'
+    sudo 'rm postgresql-9.0.3.tar.gz'
+    sudo 'wget http://wwwmaster.postgresql.org/redir/333/h/source/v9.0.3/postgresql-9.0.3.tar.gz'
     sudo 'tar -xzf postgresql-9.0.3.tar.gz'
     sudo 'rm postgresql-9.0.3.tar.gz'
     Dir.chdir 'postgresql-9.0.3'
