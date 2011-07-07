@@ -51,7 +51,7 @@ dep 'rvm system' do
 
     # Login shells are now set up by the RVM install script itself (via /etc/profile.d/rvm.sh)
     # For non-login shells: (prepend so that it runs before '[ -z "$PS1" ] && return' does an early return)
-    unless grep %r{source /etc/profile\.d/rvm\.sh}, "/etc/bash.bashrc"
+    unless grep(%r{source /etc/profile\.d/rvm\.sh}, "/etc/bash.bashrc")
       line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /etc/profile.d/rvm.sh ]] ; then source /etc/profile.d/rvm.sh ; fi\n"
       sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc"
     end
