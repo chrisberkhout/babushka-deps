@@ -47,7 +47,7 @@ end
 
 dep 'passenger for nginx' do
   # http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_installing_phusion_passenger_for_nginx_manually
-  # To have a given rails app use a different gemset (but same ruby: ruby19), see: 
+  # To have a given rails app use a different gemset (but same ruby), see: 
   #     http://rvm.beginrescueend.com/integration/passenger/
   # Multiple rubies via standalone passenger is probably best done as part of the setup of any accounts that need it. See also:
   #     http://blog.phusion.nl/2010/09/21/phusion-passenger-running-multiple-ruby-versions/
@@ -56,7 +56,8 @@ dep 'passenger for nginx' do
     'rvm system ruby19 default',
     'build-essential',
     'curl',
-    'libcurl4-openssl-dev'
+    'libcurl4-openssl-dev',
+    'www-data is member of rvm'
   met? { 
     `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] &&
     File.exist?(`bash -lc "passenger-config --root"`.chomp + '/agents/nginx/PassengerHelperAgent')
@@ -72,6 +73,13 @@ dep 'libcurl4-openssl-dev' do
   met? { `dpkg -s libcurl4-openssl-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install libcurl4-openssl-dev" }
 end
+
+dep 'www-data is member of rvm' do
+  requires 'rvm group'
+  met? { members_of('rvm').include?('www-data') }
+  meet { sudo "usermod -aG rvm www-data" }
+end
+
 
 dep 'sys libs for nginx' do
   requires \
@@ -101,11 +109,6 @@ dep 'nginx init script' do
     sudo "chmod +x /etc/init.d/nginx"
     sudo "/usr/sbin/update-rc.d -f nginx defaults"
   }
-end
-
-dep 'lsb-base' do
-  met? { `dpkg -s lsb-base 2>&1`.include?("\nStatus: install ok installed\n") }
-  meet { sudo "apt-get -y install lsb-base" }
 end
 
 

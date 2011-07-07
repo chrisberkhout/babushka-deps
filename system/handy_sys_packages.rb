@@ -1,6 +1,7 @@
 dep 'handy sys packages' do
   requires \
     'build-essential',
+    'lsb-base',
     'curl',
     'bison',
     'imagemagick',
@@ -17,6 +18,11 @@ end
 dep 'bison' do
   met? { `dpkg -s bison 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install bison" }
+end
+
+dep 'lsb-base' do
+  met? { `dpkg -s lsb-base 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install lsb-base" }
 end
 
 dep 'curl' do
