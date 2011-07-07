@@ -1,7 +1,13 @@
 
 PATH=/usr/local/pgsql/bin:$PATH
 export PATH
+
+# Having pg_config in the path isn't enough to load the pg gem, so...
+LD_LIBRARY_PATH=/usr/local/pgsql/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+
 MANPATH=/usr/local/pgsql/man:$MANPATH
 export MANPATH
+
 PGDATA=/usr/local/pgsql/data
 export PGDATA
