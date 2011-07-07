@@ -11,6 +11,7 @@ dep 'system chrisberkhout.com' do
     'rvm system ruby19 default',
     'nginx',
     'php',
+    # 'mysql',
     # 'sphinx',
     'postgres',
     'nothing else'
@@ -29,6 +30,7 @@ dep 'system policycn' do
     'rvm system ruby19 default',
     'nginx',
     # 'php',
+    # 'mysql',
     # 'sphinx',
     # 'postgres',
     'nothing else'

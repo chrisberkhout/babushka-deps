@@ -2,6 +2,10 @@ require 'fileutils'
  
 dep 'postgres' do
   # http://www.postgresql.org/docs/9.0/static/installation.html
+  #
+  # NOTE: 'postgres' is a default superuser role that local users 
+  #       can use as DB username without additional setup.
+  #
   requires \
     'postgres built and installed',
     'postgres user exists with bash shell',
@@ -125,7 +129,7 @@ dep 'postgres environment variables set up' do
   meet {
     my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
     sudo 'chmod +x /etc/profile.d/postgres.sh'
-    # for non-login shells
+    # For non-login shells
     unless grep(%r{source /etc/profile\.d/postgres\.sh}, "/etc/bash.bashrc")
       line_to_add = "\n# Postgres env variable setup \nif [[ -s /etc/profile.d/postgres.sh ]] ; then source /etc/profile.d/postgres.sh ; fi\n"
       sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc"

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ### BEGIN INIT INFO
 # Provides:          nginx
@@ -16,6 +16,11 @@ NAME=nginx
 DESC=nginx
 
 test -x $DAEMON || exit 0
+
+# Non-login shell setup (needed for pg gem to find postgres lib dir)
+if [ -f /etc/bash.bashrc ] ; then
+    . /etc/bash.bashrc
+fi
 
 # Include nginx defaults if available
 if [ -f /etc/defaults/nginx.conf ] ; then
