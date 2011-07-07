@@ -1,4 +1,4 @@
-require 'ftools'
+require 'fileutils'
  
 dep 'postgres' do
   # http://www.postgresql.org/docs/9.0/static/installation.html
