@@ -34,7 +34,9 @@ dep 'rvm system' do
     `bash -lc "env | grep ^rvm_path="`[/^rvm_path=\/usr\/local\/rvm$/] &&
     `bash -lc "type rvm | head -n1" 2>&1`[/^rvm is a function/] && 
     !changed_from_erb?('/usr/local/rvm/gemsets/default.gems', 'rvm_system/default.gems.erb') &&
-    !changed_from_erb?('/usr/local/rvm/gemsets/global.gems', 'rvm_system/global.gems.erb')
+    !changed_from_erb?('/usr/local/rvm/gemsets/global.gems', 'rvm_system/global.gems.erb') &&
+    File.exist?("/etc/profile.d/rvm.sh") &&
+    grep(%r{source /etc/profile\.d/rvm\.sh}, "/etc/bash.bashrc")
   }
   meet {
     # clear any existing rvm environment variables, so the install goes into the default system-wide location.
@@ -47,20 +49,15 @@ dep 'rvm system' do
     my_render_erb "rvm_system/default.gems.erb", :to => '/usr/local/rvm/gemsets/default.gems', :sudo => true
     my_render_erb "rvm_system/global.gems.erb",  :to => '/usr/local/rvm/gemsets/global.gems',  :sudo => true
 
-    line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /usr/local/lib/rvm ]] ; then source /usr/local/lib/rvm ; fi\n"
-    # For login shells:
-    if File.exist?("/etc/profile.d") then 
-      sudo "echo \"#{line_to_add}\" > /etc/profile.d/rvm-system-wide.sh"
-      sudo "chmod +x /etc/profile.d/rvm-system-wide.sh"
-    elsif File.exist?("/etc/profile") then 
-      sudo "echo \"#{line_to_add}\" >> /etc/profile" 
-    end
+    # Login shells are now set up by the RVM install script itself (via /etc/profile.d/rvm.sh)
     # For non-login shells: (prepend so that it runs before '[ -z "$PS1" ] && return' does an early return)
-    sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc" if File.exist?("/etc/bash.bashrc")
+    unless grep %r{source /etc/profile\.d/rvm\.sh}, "/etc/bash.bashrc"
+      line_to_add = "\n# RVM (Ruby Version Manager)\nif [[ -s /etc/profile.d/rvm.sh ]] ; then source /etc/profile.d/rvm.sh ; fi\n"
+      sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc"
+    end
     
     sudo "usermod -aG rvm root" # Add root to the rvm group.
     members_of('admin').each { |u| sudo "usermod -aG rvm #{u}" } # Add admins to the rvm group
-
   }
 end
 
