@@ -119,11 +119,17 @@ dep 'postgres environment variables set up' do
     'postgres built and installed'
   met? { 
     !changed_from_erb?('/etc/profile.d/postgres.sh', 'postgres/etc_profile.d_postgres.sh.erb') &&
-    File.executable?('/etc/profile.d/postgres.sh')
+    File.executable?('/etc/profile.d/postgres.sh') &&
+    grep %r{source /etc/profile\.d/postgres\.sh}, "/etc/bash.bashrc"
   }
   meet {
     my_render_erb "postgres/etc_profile.d_postgres.sh.erb", :to => '/etc/profile.d/postgres.sh', :sudo => true
     sudo 'chmod +x /etc/profile.d/postgres.sh'
+    # for non-login shells
+    unless grep %r{source /etc/profile\.d/postgres\.sh}, "/etc/bash.bashrc"
+      line_to_add = "\n# Postgres env variable setup \nif [[ -s /etc/profile.d/postgres.sh ]] ; then source /etc/profile.d/postgres.sh ; fi\n"
+      sudo "echo \"#{line_to_add}\" | cat - /etc/bash.bashrc > /tmp/bash.bashrc.new && mv /tmp/bash.bashrc.new /etc/bash.bashrc"
+    end
   }
 end
 
