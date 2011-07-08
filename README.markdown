@@ -4,10 +4,7 @@ My [Babushka](http://babushka.me) deps for setting up a Linux VPS.
 
 ## Status and scope
 
-In development. More to do... In particular:
-
-* MongoDB
-* ElasticSearch
+In development. Should work. Some cleanup to do.
 
 These deps are for setting up a system and its accounts. They don't (or don't currently) handle:
 
