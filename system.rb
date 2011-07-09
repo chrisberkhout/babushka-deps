@@ -14,6 +14,7 @@ dep 'system chrisberkhout.com' do
     # 'mysql',
     # 'sphinx',
     'postgres',
+    # 'nodejs',
     # 'mongodb',
     # 'elasticsearch',
     'nothing else'
@@ -35,6 +36,7 @@ dep 'system policycn' do
     # 'mysql',
     # 'sphinx',
     # 'postgres',
+    'nodejs',
     'mongodb',
     'elasticsearch',
     'nothing else'
