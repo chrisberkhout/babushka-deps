@@ -23,7 +23,6 @@ dep '10gen apt source added' do
 end
 
 dep 'mongodb-10gen' do
-  requires 'apt-get update today' # may be needed to get the latest stable build
   met? { `dpkg -s mongodb-10gen 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install mongodb-10gen" }
 end
