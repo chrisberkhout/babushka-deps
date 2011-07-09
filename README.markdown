@@ -4,7 +4,7 @@ My [Babushka](http://babushka.me) deps for setting up a Linux VPS.
 
 ## Status and scope
 
-In development. Should work. Some cleanup to do.
+In development. Some cleanup to do but should work.
 
 These deps are for setting up a system and its accounts. They don't (or don't currently) handle:
 
@@ -43,7 +43,7 @@ Recommit:
 
 ## Notes
 
-I am intentionally using only simple deps and with few lot of helpers because I want full awareness and control of what is being run. I also want the dep definition to read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to switch to custom or build-in meta-deps and other babushka functionality later where beneficial.                       
+I am intentionally using only simple deps and few helpers because I want full awareness and control of what is being run. I also want the dep definition to read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to switch to custom or build-in meta-deps and other babushka functionality later where beneficial.                       
 
 ## Copyright
 

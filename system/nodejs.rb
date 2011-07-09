@@ -14,7 +14,7 @@ dep "python-software-properties" do
   meet { sudo "apt-get -y install python-software-properties" }
 end
 
-deb "apt source chris-lea-node.js-lucid.list added" do
+dep "apt source chris-lea-node.js-lucid.list added" do
   met? { File.exist?("/etc/apt/sources.list.d/chris-lea-node.js-lucid.list") }
   meet {
     sudo "add-apt-repository ppa:chris-lea/node.js"
