@@ -19,6 +19,7 @@ dep "apt source chris-lea-node.js-lucid.list added" do
   meet {
     sudo "add-apt-repository ppa:chris-lea/node.js"
     sudo "apt-get update"
+    shell "touch ~/.ran_apt-get_update"
   }
 end
 
