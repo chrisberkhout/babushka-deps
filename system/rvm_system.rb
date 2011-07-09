@@ -74,8 +74,9 @@ dep 'sys libs for mri and ree' do
     'bison',             # defined elsewhere
     'openssl',
     'zlib1g-dev',
-    'libreadline5-dev',
+    'libreadline6-dev',
     'libssl-dev',
+    'libyaml-dev',
     'libsqlite3-dev',
     'sqlite3',
     'libxml2-dev',
@@ -98,13 +99,17 @@ dep 'zlib1g-dev' do
   met? { `dpkg -s zlib1g-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install zlib1g-dev" }
 end
-dep 'libreadline5-dev' do
-  met? { `dpkg -s libreadline5-dev 2>&1`.include?("\nStatus: install ok installed\n") }
-  meet { sudo "apt-get -y install libreadline5-dev" }
+dep 'libreadline6-dev' do
+  met? { `dpkg -s libreadline6-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libreadline6-dev" }
 end
 dep 'libssl-dev' do
   met? { `dpkg -s libssl-dev 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install libssl-dev" }
+end
+dep 'libyaml-dev' do
+  met? { `dpkg -s libyaml-dev 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install libyaml-dev" }
 end
 dep 'libsqlite3-dev' do
   met? { `dpkg -s libsqlite3-dev 2>&1`.include?("\nStatus: install ok installed\n") }

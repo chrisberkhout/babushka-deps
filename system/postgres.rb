@@ -53,7 +53,7 @@ end
 dep 'postgres basic sys libs' do
   requires \
     'zlib1g-dev',
-    'libreadline5-dev',
+    'libreadline6-dev',
     'lsb-base'
 end
 
