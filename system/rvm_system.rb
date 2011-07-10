@@ -26,7 +26,8 @@ dep 'rvm system' do
     'apt rubygems',             # the rvm system-wide install script expects a system rubygems to exist
     #'sys libs for jruby',       # not needed unless using jruby
     #'sys libs for ironruby',    # not needed unless using ironruby
-    'sys libs for mri and ree'
+    'sys libs for mri and ree',
+    'gemrc'
 
   met? { 
     # This works if system-wide rvm has been installed, even if the shell hasn't been closed and reopened.
@@ -149,4 +150,10 @@ end
 dep 'mono-2.0-devel' do
   met? { `dpkg -s mono-2.0-devel 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install mono-2.0-devel" }
+end
+
+
+dep 'gemrc' do
+  met? { !changed_from_erb?('/etc/gemrc', 'rvm_system/etc_gemrc.erb') }
+  meet { my_render_erb "rvm/etc_gemrc.erb", :to => '/etc/gemrc', :sudo => true }
 end
