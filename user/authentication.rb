@@ -8,15 +8,15 @@ end
 dep '.ssh directory' do
   requires 'account with password'
   met? { 
-    File.exist?("/#{var :username}/.ssh") &&
-    File.ftype("/#{var :username}/.ssh") == "directory" &&
-    owner_and_group?("/#{var :username}/.ssh", "#{var :username}:#{var :username}") &&
-    perms?("/#{var :username}/.ssh", "700")
+    File.exist?("/home/#{var :username}/.ssh") &&
+    File.ftype("/home/#{var :username}/.ssh") == "directory" &&
+    owner_and_group?("/home/#{var :username}/.ssh", "#{var :username}:#{var :username}") &&
+    perms?("/home/#{var :username}/.ssh", "700")
   }
   meet { 
-    sudo "mkdir -p /#{var :username}/.ssh"
-    sudo "chown #{var :username}:#{var :username} /#{var :username}/.ssh"
-    sudo "chmod 700 /#{var :username}/.ssh"
+    sudo "mkdir -p /home/#{var :username}/.ssh"
+    sudo "chown #{var :username}:#{var :username} /home/#{var :username}/.ssh"
+    sudo "chmod 700 /home/#{var :username}/.ssh"
   }
 end
 
@@ -25,15 +25,15 @@ dep 'ssh key authorized' do
     'account with password',
     '.ssh directory'
   met? { 
-    File.exist?("/#{var :username}/.ssh/authorized_keys") &&
-    owner_and_group?("/#{var :username}/.ssh/authorized_keys", "#{var :username}:#{var :username}") &&
-    perms?("/#{var :username}/.ssh/authorized_keys", "600") &&
-    grep(var(:ssh_key_to_authorize), "/#{var :username}/.ssh/authorized_keys")
+    File.exist?("/home/#{var :username}/.ssh/authorized_keys") &&
+    owner_and_group?("/home/#{var :username}/.ssh/authorized_keys", "#{var :username}:#{var :username}") &&
+    perms?("/home/#{var :username}/.ssh/authorized_keys", "600") &&
+    grep(var(:ssh_key_to_authorize), "/home/#{var :username}/.ssh/authorized_keys")
   }
   meet { 
-    sudo "touch /#{var :username}/.ssh/authorized_keys"
-    sudo "chown #{var :username}:#{var :username} /#{var :username}/.ssh/authorized_keys"
+    sudo "touch /home/#{var :username}/.ssh/authorized_keys"
+    sudo "chown #{var :username}:#{var :username} /home/#{var :username}/.ssh/authorized_keys"
     sudo "chmod 600 /#{var :username}/.ssh/authorized_keys"
-    sudo "echo #{var :ssh_key_to_authorize} >> /#{var :username}/.ssh/authorized_keys"
+    sudo "echo \"#{var :ssh_key_to_authorize}\" >> /home/#{var :username}/.ssh/authorized_keys"
   }
 end
