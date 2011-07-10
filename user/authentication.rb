@@ -33,7 +33,7 @@ dep 'ssh key authorized' do
   meet { 
     sudo "touch /home/#{var :username}/.ssh/authorized_keys"
     sudo "chown #{var :username}:#{var :username} /home/#{var :username}/.ssh/authorized_keys"
-    sudo "chmod 600 /#{var :username}/.ssh/authorized_keys"
+    sudo "chmod 600 /home/#{var :username}/.ssh/authorized_keys"
     sudo "echo \"#{var :ssh_key_to_authorize}\" >> /home/#{var :username}/.ssh/authorized_keys"
   }
 end
