@@ -11,7 +11,6 @@ These deps are for setting up a system and its accounts. They don't (or don't cu
 * DNS setup
 * Mail server/forwarding
 * Backups
-* Passwordless authentication from a dev machine
 * Deployment/redeployment of individual apps
 
 ## To get going and set up a new site...

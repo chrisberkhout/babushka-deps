@@ -2,7 +2,8 @@ dep 'account' do
   requires \
     'account with password',
     'member of admin',
-    'member of rvm'
+    'member of rvm',
+    'authentication'
 end
 
 
