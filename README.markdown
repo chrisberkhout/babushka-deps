@@ -9,6 +9,7 @@ In development. Some cleanup to do but should work.
 These deps are for setting up a system and its accounts. They don't (or don't currently) handle:
 
 * DNS setup
+* Mail server/forwarding
 * Backups
 * Passwordless authentication from a dev machine
 * Deployment/redeployment of individual apps
