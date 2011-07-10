@@ -28,7 +28,7 @@ dep 'ssh key authorized' do
     File.exist?("/home/#{var :username}/.ssh/authorized_keys") &&
     owner_and_group?("/home/#{var :username}/.ssh/authorized_keys", "#{var :username}:#{var :username}") &&
     perms?("/home/#{var :username}/.ssh/authorized_keys", "600") &&
-    `sudo cat /home/#{var :username}/.ssh/authorized_keys`.include?(var :username)
+    `sudo cat /home/#{var :username}/.ssh/authorized_keys`.include?(var :ssh_key_to_authorize)
   }
   meet { 
     sudo "touch /home/#{var :username}/.ssh/authorized_keys"
