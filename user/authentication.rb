@@ -20,28 +20,13 @@ dep '.ssh directory' do
   }
 end
 
-dep 'c1' do
-  met? { File.exist?("/home/#{var :username}/.ssh/authorized_keys") }
-end
-dep 'c2' do
-  met? { owner_and_group?("/home/#{var :username}/.ssh/authorized_keys", "#{var :username}:#{var :username}") }
-end
-dep 'c3' do
-  met? { perms?("/home/#{var :username}/.ssh/authorized_keys", "600") }
-end
-dep 'c4' do
-  met? { `sudo cat /home/#{var :username}/.ssh/authorized_keys`.include?(var :ssh_key_to_authorize) }
-end
-
 dep 'ssh key authorized' do
   requires \
-    'c1', 'c2', 'c3', 'c4',
     'account with password',
     '.ssh directory'
   met? { 
-    File.exist?("/home/#{var :username}/.ssh/authorized_keys") &&
-    owner_and_group?("/home/#{var :username}/.ssh/authorized_keys", "#{var :username}:#{var :username}") &&
-    perms?("/home/#{var :username}/.ssh/authorized_keys", "600") &&
+    `sudo ls /home/#{var :username}/.ssh/authorized_keys`.match(%{^/home/#{var :username}/.ssh/authorized_keys}) &&
+    `sudo ls -l /home/#{var :username}/.ssh/authorized_keys`.match(%r{^-rw------- \d+ #{var :username} #{var :username} }) &&
     `sudo cat /home/#{var :username}/.ssh/authorized_keys`.include?(var :ssh_key_to_authorize)
   }
   meet { 
