@@ -25,9 +25,9 @@ dep 'ssh key authorized' do
     'account with password',
     '.ssh directory'
   met? { 
-    `sudo ls /home/#{var :username}/.ssh/authorized_keys`.match(%{^/home/#{var :username}/.ssh/authorized_keys}) &&
-    `sudo ls -l /home/#{var :username}/.ssh/authorized_keys`.match(%r{^-rw------- \d+ #{var :username} #{var :username} }) &&
-    `sudo cat /home/#{var :username}/.ssh/authorized_keys`.include?(var :ssh_key_to_authorize)
+    `sudo ls /home/#{var :username}/.ssh/authorized_keys 2>&1`.match(%{^/home/#{var :username}/.ssh/authorized_keys}) &&
+    `sudo ls -l /home/#{var :username}/.ssh/authorized_keys 2>&1`.match(%r{^-rw------- \d+ #{var :username} #{var :username} }) &&
+    `sudo cat /home/#{var :username}/.ssh/authorized_keys 2>&1`.include?(var :ssh_key_to_authorize)
   }
   meet { 
     sudo "touch /home/#{var :username}/.ssh/authorized_keys"
