@@ -27,7 +27,7 @@ dep 'ssh key authorized' do
     File.exist?("/#{var :username}/.ssh/authorized_keys") &&
     owner_and_group?("/#{var :username}/.ssh/authorized_keys", "#{var :username}:#{var :username}") &&
     perms?("/#{var :username}/.ssh/authorized_keys", "600") &&
-    grep var(:ssh_key_to_authorize), "/#{var :username}/.ssh/authorized_keys"
+    grep(var(:ssh_key_to_authorize), "/#{var :username}/.ssh/authorized_keys")
   }
   meet { 
     sudo "touch /#{var :username}/.ssh/authorized_keys"
