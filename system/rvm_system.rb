@@ -155,5 +155,5 @@ end
 
 dep 'gemrc' do
   met? { !changed_from_erb?('/etc/gemrc', 'rvm_system/etc_gemrc.erb') }
-  meet { my_render_erb "rvm/etc_gemrc.erb", :to => '/etc/gemrc', :sudo => true }
+  meet { my_render_erb "rvm_system/etc_gemrc.erb", :to => '/etc/gemrc', :sudo => true }
 end
