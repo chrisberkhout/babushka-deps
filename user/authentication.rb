@@ -9,7 +9,7 @@ dep '.ssh directory' do
   requires 'account with password'
   met? { 
     File.exist?("/#{var :username}/.ssh") &&
-    File.ftype?("/#{var :username}/.ssh") == "directory" &&
+    File.ftype("/#{var :username}/.ssh") == "directory" &&
     owner_and_group?("/#{var :username}/.ssh", "#{var :username}:#{var :username}") &&
     perms?("/#{var :username}/.ssh", "700")
   }
