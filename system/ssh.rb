@@ -5,5 +5,8 @@ end
 
 dep 'ssh gateway ports enabled' do
   met? { grep /^GatewayPorts\s+yes/, "/etc/ssh/sshd_config" }
-  meet { append_to_file "GatewayPorts yes", "/etc/ssh/sshd_config", :sudo => true }
+  meet { 
+    append_to_file "GatewayPorts yes", "/etc/ssh/sshd_config", :sudo => true 
+    sudo "/etc/init.d/ssh restart"
+  }
 end
