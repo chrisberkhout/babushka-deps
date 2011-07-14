@@ -5,6 +5,7 @@ dep "elasticsearch" do
     "elasticsearch downloaded and extracted",
     "elasticsearch service wrapper downloaded",
     "elasticsearch service wrapper installed",
+    "elasticsearch configured",
     "elasticsearch running"
 end
 
@@ -40,6 +41,20 @@ dep "elasticsearch service wrapper installed" do
   requires "elasticsearch service wrapper downloaded"
   met? { File.exist?("/etc/init.d/elasticsearch") }
   meet { sudo "/usr/local/elasticsearch/bin/service/elasticsearch install" }
+end
+
+dep "elasticsearch configured" do
+  requires "elasticsearch service wrapper installed"
+  define_var :elasticsearch_min_max_mem,
+    :message => "What should the ElasticSearch memory limit be set to (in MB)?",
+    :default => "256"
+  met? {
+    !changed_from_erb?('/usr/local/elasticsearch/bin/service/elasticsearch.conf', 'elasticsearch/bin_service_elasticsearch.conf.erb')
+  }
+  meet {
+    my_render_erb "elasticsearch/bin_service_elasticsearch.conf.erb", :to => '/usr/local/elasticsearch/bin/service/elasticsearch.conf', :sudo => true
+    sudo "/etc/init.d/elasticsearch restart"
+  }
 end
 
 dep "elasticsearch running" do
