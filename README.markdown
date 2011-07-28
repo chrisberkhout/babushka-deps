@@ -4,7 +4,7 @@ My [Babushka](http://babushka.me) deps for setting up a Linux VPS.
 
 ## Status and scope
 
-In development. Some cleanup to do but should work.
+Working.
 
 These deps are for setting up a system and its accounts. They don't (or don't currently) handle:
 
