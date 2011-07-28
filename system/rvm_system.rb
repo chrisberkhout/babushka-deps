@@ -3,6 +3,8 @@ dep 'rvm system' do
   #
   # This does a system-wide (multi-user) rvm install. 
   #
+  # For .rvmrc issues, see: http://serverfault.com/questions/227510/is-it-possible-to-skip-rvmrc-confirmation
+  #
   # System-wide rvm requires users to be in the rvm group to have write access.
   # This dep adds root and any admins to the rvm group. Also see the dep 'member of rvm'.
   # 
