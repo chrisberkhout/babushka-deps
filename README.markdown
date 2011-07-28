@@ -27,20 +27,6 @@ A different `cb:'system *'` setup may be required. See `system.rb` for alternati
     babushka sources -a cb git://github.com/chrisberkhout/babushka-deps.git
     babushka cb:site
 
-## Special setup
-
-Setup:
-
-    git update-server-info
-    gem install asdf
-    echo -e "On the target machine, run:\nbabushka sources -a ns http://`/usr/libexec/PlistBuddy -c 'Print System:Network:HostNames:LocalHostName' /Library/Preferences/SystemConfiguration/preferences.plist`.local:9292/.git"
-    asdf
-
-Recommit:
-
-    ga .; gc -m "."; git update-server-info
-
-
 ## Notes
 
 I am intentionally using only simple deps and few helpers because I want full awareness and control of what is being run. I also want the dep definition to read as a set of instructions for how to do the setup manually. Starting with this format, it should be easy enough to switch to custom or build-in meta-deps and other babushka functionality later where beneficial.                       
