@@ -14,7 +14,7 @@ def render_erb_inline(file, opts = {})
   end
 end
 
-# This is Ben's old render_erb(), reproduced here to avoid the funky new hash magic.
+# This is base on Ben's old render_erb(). Avoiding the old 
 def my_render_erb erb, opts = {}
   if (path = erb_path_for(erb)).nil?
     log_error "If you use #my_render_erb within a dynamically defined dep, you have to give the full path to the erb template."
@@ -23,7 +23,7 @@ def my_render_erb erb, opts = {}
   elsif File.exists?(path)
     # require 'erb'
     debug ERB.new(IO.read(path)).result(binding)
-    returning shell("cat > #{opts[:to]}",
+    shell("cat > #{opts[:to]}",
       :input => ERB.new(IO.read(path)).result(binding),
       :sudo => opts[:sudo]
     ) do |result|
