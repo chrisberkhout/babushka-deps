@@ -1,5 +1,5 @@
 dep 'site' do
-  requires 'nginx', 'account'
+  requires 'nginx', 'account', 'site log dir'
 
   setup {
     define_var :site_config_selection,
@@ -30,4 +30,9 @@ dep 'site' do
     shell "ln -sf #{var :site_config_destination} #{var :site_enabled_link}", :sudo => true
     shell "/etc/init.d/nginx restart", :sudo => true
   }
+end
+
+dep 'site log dir' do
+  met? { File.exist?("#{home_of(var :username)}/shared/log") }
+  meet { sudo "mkdir -p #{home_of(var :username)}/shared/log" }
 end
