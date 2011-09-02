@@ -33,6 +33,12 @@ dep 'site' do
 end
 
 dep 'site log dir' do
-  met? { File.exist?("#{home_of(var :username)}/shared/log") }
-  meet { sudo "mkdir -p #{home_of(var :username)}/shared/log" }
+  met? { 
+    File.exist?("#{home_of(var :username)}/shared/log") &&
+    owner_and_group?("#{home_of(var :username)}/shared/log", "#{var :username}:#{var :username}")
+  }
+  meet { 
+    sudo "mkdir -p #{home_of(var :username)}/shared/log" 
+    sudo "chown #{var :username}:#{var :username} \"#{home_of(var :username)}/shared/log\""
+  }
 end
