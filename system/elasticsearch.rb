@@ -10,9 +10,9 @@ dep "elasticsearch" do
 end
 
 dep "elasticsearch downloaded and extracted" do
-  met? { File.exist?("/usr/local/elasticsearch/bin/elasticsearch") }
+  met? { File.readlink("/usr/local/elasticsearch") == "elasticsearch-0.17.8" }
   meet {
-    file_url  = "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.16.2.tar.gz"
+    file_url  = "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.17.8.tar.gz"
     file_tgz  = file_url.split("/")[-1]
     file_bare = file_tgz[0..(-1-".tar.gz".length)]
     Dir.chdir "/usr/local"
@@ -20,8 +20,8 @@ dep "elasticsearch downloaded and extracted" do
     sudo "wget #{file_url}"
     sudo "tar -xzf #{file_tgz}"
     sudo "rm -f #{file_tgz}"
-    sudo "rm -Rf elasticsearch"
-    sudo "mv #{file_bare} elasticsearch"
+    sudo "rm -f elasticsearch"
+    sudo "ln -s #{file_bare} elasticsearch"
   }
 end
 
