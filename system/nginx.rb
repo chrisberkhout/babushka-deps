@@ -59,11 +59,11 @@ dep 'passenger for nginx' do
     'libcurl4-openssl-dev',
     'www-data is member of rvm'
   met? { 
-    `bash -lc "gem list passenger" 2>&1`['passenger (3.0.0)'] &&
+    `bash -lc "passenger --version"`['Phusion Passenger version 3.0.9'] &&
     File.exist?(`bash -lc "passenger-config --root"`.chomp + '/agents/nginx/PassengerHelperAgent')
   }
   meet { 
-    shell 'bash -lc "sg rvm -c \"rvm ruby-1.9.2-p180@default gem install passenger --version 3.0.0\""' 
+    shell 'bash -lc "sg rvm -c \"rvm ruby-1.9.2-p180@default gem install passenger --version 3.0.9\""' 
     Dir.chdir( `bash -lc "passenger-config --root"`.chomp + '/ext/nginx' )
     sudo 'bash -lc "sg rvm -c \"rake nginx\""' # doing this now means nginx ./configure won't try it and create rvm complications
   }
