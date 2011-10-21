@@ -97,9 +97,7 @@ end
 dep 'nginx init script' do
   # http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-adding-an-nginx-init-script
   # http://wiki.nginx.org/nginx-init-ubuntu
-  requires \
-    'lsb-base',
-    'nginx built and installed'
+  requires 'lsb-base'
   met? {
     File.exist?('/etc/init.d/nginx') &&
     `update-rc.d -n nginx defaults 2>&1`.include?('System start/stop links for /etc/init.d/nginx already exist.')
@@ -115,9 +113,6 @@ end
 dep 'nginx sites directories and sys config' do
   # Note that this nginx.conf setup assumes a system-wide rvm install of ruby-1.9.2-p180 is in the usual place.
   # Regarding sites directories, see: http://articles.slicehost.com/2009/3/4/ubuntu-intrepid-nginx-from-source-layout
-  requires \
-    'rvm system ruby19 default',
-    'nginx built and installed'
   met? {
     File.exist?('/usr/local/nginx/sites-available') &&
     File.exist?('/usr/local/nginx/sites-enabled') &&
@@ -133,9 +128,6 @@ end
 
 
 dep 'nginx running' do
-  requires \
-    'nginx built and installed',
-    'nginx init script'
   met? { File.exist?('/usr/local/nginx/logs/nginx.pid') }
   meet { sudo "/etc/init.d/nginx start" }
 end
