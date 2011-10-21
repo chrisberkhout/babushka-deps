@@ -11,6 +11,7 @@ http {
     sendfile            on;
     keepalive_timeout   5;
     lingering_time      900s; # allow file uploads to go on for 15min before giving up
+    client_max_body_size 25m; # allow file uploads of up to 25MB
     gzip                on;
     passenger_root      <%= `bash -lc "passenger-config --root"`.chomp %>;
     passenger_ruby      /usr/local/rvm/wrappers/ruby-1.9.2-p180/ruby;
