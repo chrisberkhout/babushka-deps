@@ -14,7 +14,7 @@ def render_erb_inline(file, opts = {})
   end
 end
 
-# This is base on Ben's old render_erb(). Avoiding the old 
+# This is based on Ben's old #render_erb
 def my_render_erb erb, opts = {}
   if (path = erb_path_for(erb)).nil?
     log_error "If you use #my_render_erb within a dynamically defined dep, you have to give the full path to the erb template."
