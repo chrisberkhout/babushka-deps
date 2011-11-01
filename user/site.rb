@@ -33,14 +33,18 @@ dep 'site' do
 end
 
 dep 'site log dir' do
-  setup { set :user_shared_log_dir, "#{home_of(var :username)}/shared/log" }
+  setup { 
+    set :user_shared_dir,     "#{home_of(var :username)}/shared" 
+    set :user_shared_log_dir, "#{var :user_shared_dir}/log" 
+  }
   met? { 
     File.exist?(var(:user_shared_log_dir)) &&
     File.ftype(var(:user_shared_log_dir)) == "directory" &&
+    owner_and_group?(var(:user_shared_dir), "#{var :username}:#{var :username}") &&
     owner_and_group?(var(:user_shared_log_dir), "#{var :username}:#{var :username}")
   }
   meet { 
     sudo "mkdir -p \"#{var(:user_shared_log_dir)}\"" 
-    sudo "chown #{var :username}:#{var :username} \"#{var(:user_shared_log_dir)}\""
+    sudo "chown -R #{var :username}:#{var :username} \"#{var(:user_shared_dir)}\""
   }
 end
