@@ -2,14 +2,14 @@ dep "elasticsearch" do
   # http://www.elasticsearch.org/guide/reference/setup/installation.html
   requires \
     "java",
-    "elasticsearch downloaded and extracted",
+    "elasticsearch downloaded, extracted and linked",
     "elasticsearch service wrapper downloaded",
     "elasticsearch service wrapper installed",
     "elasticsearch configured",
     "elasticsearch running"
 end
 
-dep "elasticsearch downloaded and extracted" do
+dep "elasticsearch downloaded, extracted and linked" do
   met? { File.readlink("/usr/local/elasticsearch") == "elasticsearch-0.18.4" }
   meet {
     file_url  = "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.18.4.tar.gz"
@@ -21,7 +21,9 @@ dep "elasticsearch downloaded and extracted" do
     sudo "tar -xzf #{file_tgz}"
     sudo "rm -f #{file_tgz}"
     sudo "rm -f elasticsearch"
+    sudo "/etc/init.d/elasticsearch stop" if File.exist?("/etc/init.d/elasticsearch") # so it finds the right PID
     sudo "ln -s #{file_bare} elasticsearch"
+    sudo "/etc/init.d/elasticsearch start" if File.exist?("/etc/init.d/elasticsearch")
   }
 end
 
