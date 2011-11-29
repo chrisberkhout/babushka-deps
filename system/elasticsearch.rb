@@ -10,9 +10,9 @@ dep "elasticsearch" do
 end
 
 dep "elasticsearch downloaded, extracted and linked" do
-  met? { File.readlink("/usr/local/elasticsearch") == "elasticsearch-0.18.4" }
+  met? { File.readlink("/usr/local/elasticsearch") == "elasticsearch-0.17.9" }
   meet {
-    file_url  = "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.18.4.tar.gz"
+    file_url  = "https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.17.9.tar.gz"
     file_tgz  = file_url.split("/")[-1]
     file_bare = file_tgz[0..(-1-".tar.gz".length)]
     Dir.chdir "/usr/local"
