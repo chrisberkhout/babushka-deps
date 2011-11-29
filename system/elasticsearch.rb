@@ -1,5 +1,9 @@
 dep "elasticsearch" do
   # http://www.elasticsearch.org/guide/reference/setup/installation.html
+  
+  # NOTE: As of 2011-11-29 there is still an issue with upgrades/downgrades
+  #       via this dep. The current instance doesn't get stopped properly,
+  #       so the new one can't start.
   requires \
     "java",
     "elasticsearch downloaded, extracted and linked",
