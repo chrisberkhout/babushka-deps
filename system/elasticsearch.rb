@@ -29,7 +29,7 @@ end
 
 dep "elasticsearch service wrapper downloaded" do
   requires \
-    "elasticsearch downloaded and extracted",
+    "elasticsearch downloaded, extracted and linked",
     "curl"
   met? { File.exist?("/usr/local/elasticsearch/bin/service/elasticsearch") }
   meet {
