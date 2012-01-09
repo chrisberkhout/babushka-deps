@@ -8,6 +8,7 @@ events {
 http {
     include             mime.types;
     default_type        application/octet-stream;
+    charset             utf-8;
     sendfile            on;
     keepalive_timeout   5;
     lingering_time      900s; # allow file uploads to go on for 15min before giving up
