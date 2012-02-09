@@ -2,6 +2,7 @@ dep 'handy sys packages' do
   requires \
     'build-essential',
     'lsb-base',
+    'htop',
     'curl',
     'bison',
     'imagemagick',
@@ -23,6 +24,11 @@ end
 dep 'lsb-base' do
   met? { `dpkg -s lsb-base 2>&1`.include?("\nStatus: install ok installed\n") }
   meet { sudo "apt-get -y install lsb-base" }
+end
+
+dep 'htop' do
+  met? { `dpkg -s htop 2>&1`.include?("\nStatus: install ok installed\n") }
+  meet { sudo "apt-get -y install htop" }
 end
 
 dep 'curl' do
